@@ -1,0 +1,997 @@
+version: 1
+
+milestones:
+  - M0: Project skeleton & guardrails (repo, envs, CI skeleton)
+  - M1: Auth + RLS + i18n + PWA foundation
+  - M2: Catalog + Search + Storefronts
+  - M3: Cart + Multi-seller Checkout + Orders (+ webhook stubs)
+  - M4: Social & Messaging (posts, comments, realtime chat, notifications)
+  - M5: Reviews, Ratings, Moderation & Reporting
+  - M6: Admin Console, Compliance hooks, Auditing
+  - M7: Hardening (perf, a11y, security, smoke/E2E), Launch prep
+
+tasks:
+  - id: M0-REPO-SKEL
+    title: Initialize Next.js App Router repo with Tailwind v4 + shadcn/ui and TypeScript
+    description: >
+      Create the repository scaffold on Vercel with Next.js (App Router), TypeScript, Tailwind v4 and shadcn/ui.
+      Add base layouts, route groups for locales, and placeholder pages. Ensure env-var plumbing for Supabase/Stripe.
+      Reference PDF sections for stack & layouts and PL/EN routing patterns.
+      PDF: Tech Stack Implementation (Next.js + Supabase), Locales & UX Requirements (PL/EN).
+    owner_agent: Web Frontend (Next.js + shadcn/ui + Tailwind)
+    milestone: M0: Project skeleton & guardrails (repo, envs, CI skeleton)
+    inputs:
+      docs: ["PDF: Tech Stack Implementation", "PDF: Locales & UX Requirements"]
+      env: ["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY", "NEXT_PUBLIC_SITE_URL"]
+    outputs:
+      code: ["app/(public)/page.tsx", "app/[locale]/layout.tsx", "styles/globals.css", "components/ui/*", "next.config.js"]
+      db: []
+      tests: ["__tests__/smoke/app-renders.spec.ts"]
+      docs: ["docs/ADR-0001-app-structure.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a fresh clone
+        When I run the dev server
+        Then I can load /pl and /en home pages
+        And I see base layout and locale switcher
+        And the build passes TypeScript checks
+      checklist:
+        - [ ] App Router enabled with server components
+        - [ ] Tailwind v4 configured; shadcn/ui scaffolded
+        - [ ] Locale routing (pl, en) works
+        - [ ] Env vars loaded via Vercel project
+    dependencies: []
+    risk: {level: Low, notes: "Mostly scaffolding; ensure Tailwind v4 config is compatible with shadcn/ui."}
+    rollback_plan: "Revert to previous scaffold commit; remove conflicting config."
+    assumptions:
+      - "ASSUMPTION: Use shadcn/ui generator to scaffold common components."
+    est_complexity: S
+
+  - id: M0-CI-GUARDS
+    title: Add lint, format, typecheck and basic CI workflow
+    description: >
+      Wire ESLint, Prettier, and TypeScript checks; create GitHub/Vercel CI workflow to run unit tests and lints on PRs.
+      Include commit hooks. Provide a simple badge in README. Ensures baseline code quality.
+      PDF: MVP Milestones & Acceptance Criteria.
+    owner_agent: Observability & QA
+    milestone: M0: Project skeleton & guardrails (repo, envs, CI skeleton)
+    inputs:
+      docs: ["PDF: MVP Milestones & Acceptance Criteria"]
+      env: []
+    outputs:
+      code: [".github/workflows/ci.yml", ".eslintrc.cjs", ".prettierrc", "lint-staged.config.js"]
+      db: []
+      tests: ["__tests__/lint/type.spec.ts"]
+      docs: ["README.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given an opened PR
+        When CI runs
+        Then lint, tests, and typecheck must pass
+      checklist:
+        - [ ] CI workflow green for PRs
+        - [ ] Required checks enabled
+    dependencies: ["M0-REPO-SKEL"]
+    risk: {level: Low, notes: "Standard CI wiring."}
+    rollback_plan: "Disable failing step and iterate off main."
+    est_complexity: S
+
+  - id: M1-SUPABASE-BOOT
+    title: Bootstrap Supabase with extensions and base tenancy schema
+    description: >
+      Enable unaccent and pg_trgm extensions; create tenants, memberships, profiles tables with RLS deny-by-default.
+      Seed admin user list. Prepare helper views/functions for membership checks.
+      PDF: Data Modeling & RLS Patterns; Database Schema (DDL).
+    owner_agent: Database & RLS Engineer
+    milestone: M1: Auth + RLS + i18n + PWA foundation
+    inputs:
+      docs: ["PDF: Database Schema (DDL)", "PDF: Data Modeling & RLS Patterns"]
+      env: ["SUPABASE_SERVICE_ROLE_KEY"]
+    outputs:
+      code: ["supabase/migrations/0001_base.sql"]
+      db: ["tenants", "memberships", "profiles", "policies/*"]
+      tests: ["supabase/tests/rls.tenancy.spec.sql"]
+      docs: ["docs/ADR-0002-multi-tenancy.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given RLS is enabled
+        When a non-member queries a tenant-scoped table
+        Then no rows are returned
+        And a member sees only rows for their tenant
+      checklist:
+        - [ ] Extensions enabled: unaccent, pg_trgm
+        - [ ] Tenants/memberships/profiles created
+        - [ ] Deny-by-default RLS applied
+    dependencies: ["M0-REPO-SKEL"]
+    risk: {level: Med, notes: "RLS design must not leak rows."}
+    rollback_plan: "Drop migration in dev; restore from backup in staging."
+    est_complexity: M
+
+  - id: M1-AUTH-SSR
+    title: Integrate @supabase/ssr and SSR session middleware
+    description: >
+      Implement server-side auth with HttpOnly cookies using @supabase/ssr.
+      Add middleware to maintain session freshness; protect dashboard/admin routes.
+      PDF: Tech Stack Implementation (Next.js + Supabase).
+    owner_agent: Auth & Security Engineer
+    milestone: M1: Auth + RLS + i18n + PWA foundation
+    inputs:
+      docs: ["PDF: Tech Stack Implementation"]
+      env: ["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY"]
+    outputs:
+      code: ["middleware.ts", "lib/supabaseServer.ts", "lib/supabaseClient.ts"]
+      db: []
+      tests: ["__tests__/auth/ssr-session.spec.ts"]
+      docs: ["docs/auth-ssr.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given an unauthenticated user
+        When visiting /pl/admin
+        Then they are redirected to /pl/login
+        And an authenticated user reaches admin successfully
+      checklist:
+        - [ ] HttpOnly cookie set
+        - [ ] Middleware refresh works
+        - [ ] Protected routes gated
+    dependencies: ["M1-SUPABASE-BOOT"]
+    risk: {level: Med, notes: "SSR cookie boundaries & middleware matchers."}
+    rollback_plan: "Disable matcher and fall back to client-side guard while investigating."
+    est_complexity: S
+
+  - id: M1-I18N-PWA-BASE
+    title: i18n scaffolding (PL/EN) + PWA manifest and basic SW
+    description: >
+      Add translation packs and locale utilities; ensure all top-level navigation and auth copies exist in Polish and English.
+      Create manifest.json and a minimal service worker for offline shell of the home route.
+      PDF: Locales & UX Requirements (PL/EN); PWA notes.
+    owner_agent: i18n & PWA
+    milestone: M1: Auth + RLS + i18n + PWA foundation
+    inputs:
+      docs: ["PDF: Locales & UX Requirements", "PDF: Tech Stack Implementation"]
+      env: []
+    outputs:
+      code: ["public/manifest.json", "public/sw.js", "locales/pl.json", "locales/en.json"]
+      db: []
+      tests: ["__tests__/pwa/installable.spec.ts", "__tests__/i18n/locale-switch.spec.ts"]
+      docs: ["docs/pwa-overview.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a supported browser
+        When I visit the site
+        Then the app is installable as a PWA
+        And language toggle switches UI to PL/EN consistently
+      checklist:
+        - [ ] Manifest valid
+        - [ ] SW caches app shell
+        - [ ] Copy parity for PL/EN
+    dependencies: ["M0-REPO-SKEL"]
+    risk: {level: Low, notes: "Ensure CSP allows SW; avoid over-caching."}
+    rollback_plan: "Unregister SW and remove registration while fixing issues."
+    est_complexity: S
+
+  - id: M2-DB-CATALOG
+    title: Implement catalog tables, media and inventory ledger
+    description: >
+      Create products, categories, product_media tables, plus a minimal inventory ledger table to record stock changes.
+      Apply RLS: public read for published products; tenant staff CRUD for drafts.
+      PDF: Database Schema (DDL); RLS examples for products.
+    owner_agent: Database & RLS Engineer
+    milestone: M2: Catalog + Search + Storefronts
+    inputs:
+      docs: ["PDF: Database Schema (DDL)", "PDF: Data Modeling & RLS Patterns"]
+      env: []
+    outputs:
+      code: ["supabase/migrations/0002_catalog.sql"]
+      db: ["products", "product_media", "inventory_ledger", "policies/products.sql"]
+      tests: ["supabase/tests/rls.products.spec.sql"]
+      docs: ["docs/catalog-schema.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given anon user
+        When selecting products
+        Then only is_published=true rows are returned
+        And tenant staff can select drafts and update their own products
+      checklist:
+        - [ ] GIN FTS columns planned
+        - [ ] Product CRUD via RLS tested
+    dependencies: ["M1-SUPABASE-BOOT"]
+    risk: {level: Med, notes: "Correct visibility policies for public vs drafts."}
+    rollback_plan: "Revert migration; keep data snapshot for reapply."
+    assumptions:
+      - "ASSUMPTION: Use inventory_ledger to record stock deltas; products.stock remains authoritative for MVP."
+    est_complexity: M
+
+  - id: M2-UI-STOREFRONT
+    title: Storefront pages (store grid, product detail) + follow CTA + message seller CTA
+    description: >
+      Implement store landing and product detail pages using server components; add Follow/Unfollow and 'Message seller' CTAs.
+      Ensure SEO-friendly PL slugs and unaccent handling for URLs. Render media via Storage.
+      PDF: Storefront, Follows, Messaging hooks.
+    owner_agent: Web Frontend (Next.js + shadcn/ui + Tailwind)
+    milestone: M2: Catalog + Search + Storefronts
+    inputs:
+      docs: ["PDF: Social & Community", "PDF: Tech Stack Implementation"]
+      env: []
+    outputs:
+      code: ["app/[locale]/[tenant]/page.tsx", "app/[locale]/[tenant]/product/[id]/page.tsx"]
+      db: []
+      tests: ["__tests__/storefront/product-visible.spec.ts"]
+      docs: ["docs/storefront-ux.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a published product
+        When a guest opens its page
+        Then the page renders name, price, images and store CTA
+        And 'Follow store' is available for signed-in users
+      checklist:
+        - [ ] Server-side data fetching with SSR auth where needed
+        - [ ] PL slugs normalized via unaccent rules
+    dependencies: ["M2-DB-CATALOG"]
+    risk: {level: Low, notes: "Careful with server/client component boundaries."}
+    rollback_plan: "Gate features behind feature flags; serve static product page only."
+    est_complexity: M
+
+  - id: M2-SEARCH-FTS
+    title: Product & contractor search with PL/EN FTS and trigram
+    description: >
+      Add searchable TSVECTORs for product names/descriptions and contractor skills/area with unaccent, plus pg_trgm for fuzzy.
+      Implement /api/search route with weighted ranking and filters.
+      PDF: Matching & Search Algorithms; Contractor Discovery.
+    owner_agent: Search & Filtering
+    milestone: M2: Catalog + Search + Storefronts
+    inputs:
+      docs: ["PDF: Matching & Search Algorithms", "PDF: Contractor Discovery & Collaboration"]
+      env: []
+    outputs:
+      code: ["app/api/search/route.ts"]
+      db: ["indexes/fts_products.sql", "indexes/fts_contractors.sql"]
+      tests: ["supabase/tests/search.ranking.spec.sql", "__tests__/search/api.spec.ts"]
+      docs: ["docs/search-design.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a Polish query with diacritics stripped
+        When searching for a product or contractor
+        Then relevant results rank top and return within indexed time
+      checklist:
+        - [ ] GIN/GIST indexes present
+        - [ ] Weighted ranking implemented
+    dependencies: ["M2-DB-CATALOG"]
+    risk: {level: Med, notes: "Index bloat and ranking tuning for PL."}
+    rollback_plan: "Disable trigram from ORDER BY to reduce load; keep FTS only."
+    est_complexity: M
+
+  - id: M2-CONTRACTOR-DIR
+    title: Contractor profiles and directory
+    description: >
+      Implement contractor_profiles with public directory, PL/EN search by skills and service area.
+      Add 'My Tasks' placeholder page for contractors.
+      PDF: Contractor Discovery & Collaboration.
+    owner_agent: Marketplace Backend (Catalog, Cart, Orders)
+    milestone: M2: Catalog + Search + Storefronts
+    inputs:
+      docs: ["PDF: Contractor Discovery & Collaboration"]
+      env: []
+    outputs:
+      code: ["app/[locale]/contractors/page.tsx", "app/[locale]/contractors/[id]/page.tsx"]
+      db: ["contractor_profiles", "policies/contractors.sql"]
+      tests: ["__tests__/contractors/search-visible.spec.ts"]
+      docs: ["docs/contractor-directory.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given public contractor profiles
+        When a guest opens the directory
+        Then profiles are visible and queryable by skill or region
+      checklist:
+        - [ ] Public select policy for directory
+        - [ ] Profile self-edit guarded by user_id
+    dependencies: ["M1-SUPABASE-BOOT", "M2-SEARCH-FTS"]
+    risk: {level: Low, notes: "Public data only; avoid PII beyond profile fields."}
+    rollback_plan: "Hide directory route; keep table for later."
+    est_complexity: S
+
+  - id: M3-DB-CART
+    title: Carts and cart_items with RLS
+    description: >
+      Implement carts and cart_items with user-owned RLS policies; guests use local storage.
+      Add helper to merge guest cart on sign-in.
+      PDF: Tech Stack Implementation (cart), RLS patterns.
+    owner_agent: Database & RLS Engineer
+    milestone: M3: Cart + Multi-seller Checkout + Orders (+ webhook stubs)
+    inputs:
+      docs: ["PDF: Tech Stack Implementation", "PDF: Data Modeling & RLS Patterns"]
+      env: []
+    outputs:
+      code: ["supabase/migrations/0003_cart.sql", "lib/cart/merge.ts"]
+      db: ["carts", "cart_items", "policies/cart.sql"]
+      tests: ["supabase/tests/rls.cart.spec.sql", "__tests__/cart/merge.spec.ts"]
+      docs: ["docs/cart-behavior.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a signed-in user
+        When adding/removing items
+        Then only their cart is affected and readable
+      checklist:
+        - [ ] Guest cart merge works
+        - [ ] Deny cross-user access
+    dependencies: ["M2-DB-CATALOG"]
+    risk: {level: Low, notes: "RLS straightforward; merge edge cases."}
+    rollback_plan: "Disable merge and prompt user to rebuild cart."
+    est_complexity: S
+
+  - id: M3-DB-ORDERS
+    title: Parent order_group + per-seller Orders and OrderItems
+    description: >
+      Extend schema with order_groups (payment parent), orders (per tenant), and order_items.
+      Apply RLS to allow buyer or seller staff access respectively; compute totals with triggers.
+      PDF: Database Schema (DDL) adapted with parent grouping; RLS for orders.
+    owner_agent: Database & RLS Engineer
+    milestone: M3: Cart + Multi-seller Checkout + Orders (+ webhook stubs)
+    inputs:
+      docs: ["PDF: Database Schema (DDL)", "PDF: Data Modeling & RLS Patterns"]
+      env: []
+    outputs:
+      code: ["supabase/migrations/0004_orders.sql"]
+      db: ["order_groups", "orders", "order_items", "policies/orders.sql", "triggers/order_totals.sql"]
+      tests: ["supabase/tests/rls.orders.spec.sql"]
+      docs: ["docs/orders-splitting.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a mixed cart from multiple stores
+        When placing an order
+        Then an order_group is created and multiple seller orders are inserted
+        And buyers can see their orders; each seller sees only their order
+      checklist:
+        - [ ] RLS buyer/seller policies pass
+        - [ ] Totals equal sum of items
+    dependencies: ["M3-DB-CART"]
+    risk: {level: Med, notes: "Split logic & totals correctness."}
+    rollback_plan: "Fallback to single-tenant order insert while preserving group id."
+    assumptions:
+      - "ASSUMPTION: Platform acts as aggregator; payouts deferred."
+    est_complexity: M
+
+  - id: M3-CHECKOUT-STRIPE
+    title: Stripe Checkout session and success/cancel routes
+    description: >
+      Create /api/checkout/session to build a Stripe Checkout session from the order_group/cart.
+      Use PLN currency; pass order_group id in metadata; redirect to hosted Checkout.
+      PDF: Payments & PSD2 notes; route handler pattern.
+    owner_agent: Payments & Webhooks (abstracted; Stripe‑ready)
+    milestone: M3: Cart + Multi-seller Checkout + Orders (+ webhook stubs)
+    inputs:
+      docs: ["PDF: Tech Stack Implementation (Checkout)", "PDF: Compliance & Legal (PSD2)"]
+      env: ["STRIPE_SECRET_KEY", "NEXT_PUBLIC_SITE_URL"]
+    outputs:
+      code: ["app/api/checkout/session/route.ts", "app/[locale]/checkout/success/page.tsx", "app/[locale]/checkout/cancel/page.tsx"]
+      db: []
+      tests: ["__tests__/checkout/session.spec.ts"]
+      docs: ["docs/payments-flow.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given items in the cart
+        When starting checkout
+        Then user is redirected to Stripe Checkout in PLN
+        And returns to success page on completion
+      checklist:
+        - [ ] Metadata includes order_group id
+        - [ ] Amount equals cart+shipping
+    dependencies: ["M3-DB-ORDERS"]
+    risk: {level: Med, notes: "Session values must match order totals."}
+    rollback_plan: "Disable multi-seller grouping; process single-seller session only."
+    est_complexity: M
+
+  - id: M3-WEBHOOKS-STRIPE
+    title: Webhook verification and payment reconciliation
+    description: >
+      Implement /api/stripe/webhook with raw body handling and signature verification.
+      On checkout.session.completed, mark order_group paid, each child order to 'paid', and decrement stock idempotently.
+      PDF: Payments webhook guidance.
+    owner_agent: Payments & Webhooks (abstracted; Stripe‑ready)
+    milestone: M3: Cart + Multi-seller Checkout + Orders (+ webhook stubs)
+    inputs:
+      docs: ["PDF: Tech Stack Implementation (Stripe webhook)"]
+      env: ["STRIPE_WEBHOOK_SECRET", "SUPABASE_SERVICE_ROLE_KEY"]
+    outputs:
+      code: ["app/api/stripe/webhook/route.ts"]
+      db: ["functions/payment_reconcile.sql"]
+      tests: ["__tests__/checkout/webhook.spec.ts"]
+      docs: ["docs/webhook-security.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a completed Stripe session
+        When webhook is received and verified
+        Then the order_group is marked paid and orders transition to paid
+        And the handler is idempotent
+      checklist:
+        - [ ] Signature verified
+        - [ ] Duplicate events ignored
+    dependencies: ["M3-CHECKOUT-STRIPE"]
+    risk: {level: High, notes: "Raw body parsing & secrets; idempotency."}
+    rollback_plan: "Temporarily poll session status client-side while fixing webhook."
+    est_complexity: M
+
+  - id: M3-SHIPPING
+    title: Manual shipping & tracking URL generator
+    description: >
+      Add shipping fields to orders and a small helper that maps known carriers to tracking URLs.
+      Build seller UI to mark 'shipped' and notify the buyer; delivered is manual.
+      PDF: Shipping & Carrier Integrations (MVP).
+    owner_agent: Marketplace Backend (Catalog, Cart, Orders)
+    milestone: M3: Cart + Multi-seller Checkout + Orders (+ webhook stubs)
+    inputs:
+      docs: ["PDF: Shipping & Carrier Integrations (MVP)"]
+      env: []
+    outputs:
+      code: ["components/admin/orders/ShipDialog.tsx", "lib/shipping/track.ts"]
+      db: ["columns: orders.tracking_number, orders.tracking_url, orders.shipping_method"]
+      tests: ["__tests__/orders/shipping.spec.ts"]
+      docs: ["docs/shipping-mvp.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a paid order
+        When seller enters tracking number and carrier
+        Then order status becomes 'shipped' and buyer sees a working tracking link
+      checklist:
+        - [ ] Supported carriers include InPost, DPD, DHL
+        - [ ] Email/notification sent on ship
+    dependencies: ["M3-DB-ORDERS"]
+    risk: {level: Low, notes: "Static mapping; no external API."}
+    rollback_plan: "Allow free-form tracking URL and store only the link."
+    est_complexity: S
+
+  - id: M4-DB-SOCIAL
+    title: Posts, comments, reactions, follows with RLS
+    description: >
+      Create social tables with RLS: posts public, comments by any authenticated user, store staff moderation.
+      Add follows with privacy-aware policies.
+      PDF: Social & Community; RLS for posts/comments/follows.
+    owner_agent: Database & RLS Engineer
+    milestone: M4: Social & Messaging (posts, comments, realtime chat, notifications)
+    inputs:
+      docs: ["PDF: Social & Community", "PDF: Data Modeling & RLS Patterns"]
+      env: []
+    outputs:
+      code: ["supabase/migrations/0005_social.sql"]
+      db: ["posts", "comments", "reactions", "follows", "policies/social.sql"]
+      tests: ["supabase/tests/rls.social.spec.sql"]
+      docs: ["docs/social-rls.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a public post
+        When a logged-in user comments
+        Then comment is visible publicly
+        And store owner/manager can remove comments
+      checklist:
+        - [ ] Public read for posts/comments
+        - [ ] Staff moderation allowed
+    dependencies: ["M1-SUPABASE-BOOT"]
+    risk: {level: Med, notes: "Ensure moderation without over-deletion."}
+    rollback_plan: "Gate comments behind 'followers only' temporarily."
+    est_complexity: M
+
+  - id: M4-DB-MSG
+    title: Threads, participants, messages with participant/tenant RLS
+    description: >
+      Implement DM threads with participants table; messages readable by participants and tenant staff (support model).
+      Add last_read markers; prepare presence/typing via Realtime Broadcast.
+      PDF: Communication & Agreements (DM system).
+    owner_agent: Database & RLS Engineer
+    milestone: M4: Social & Messaging (posts, comments, realtime chat, notifications)
+    inputs:
+      docs: ["PDF: Communication & Agreements"]
+      env: []
+    outputs:
+      code: ["supabase/migrations/0006_messaging.sql"]
+      db: ["threads", "thread_participants", "messages", "policies/messaging.sql"]
+      tests: ["supabase/tests/rls.messaging.spec.sql"]
+      docs: ["docs/messaging-rls.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a buyer-seller thread
+        When a staff member not originally in the thread opens it
+        Then they can read/reply due to tenant support policy
+      checklist:
+        - [ ] Participant or tenant-staff access
+        - [ ] Read receipts stored
+    dependencies: ["M1-AUTH-SSR"]
+    risk: {level: Med, notes: "Avoid over-exposing messages across tenants."}
+    rollback_plan: "Restrict to explicit participants only while revising policy."
+    est_complexity: M
+
+  - id: M4-REALTIME-UI
+    title: Realtime chat UI with presence, typing and read receipts
+    description: >
+      Build chat UI that subscribes to messages on open, shows presence and typing via Broadcast,
+      and updates read positions in thread_participants. Use Storage for optional media attachment.
+      PDF: Communication & Agreements (Realtime).
+    owner_agent: Social & Messaging (Realtime)
+    milestone: M4: Social & Messaging (posts, comments, realtime chat, notifications)
+    inputs:
+      docs: ["PDF: Communication & Agreements"]
+      env: []
+    outputs:
+      code: ["app/[locale]/messages/[threadId]/page.tsx", "lib/realtime/chat.ts"]
+      db: []
+      tests: ["__tests__/chat/realtime.spec.ts"]
+      docs: ["docs/chat-ux.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given two users in a thread
+        When one sends a message
+        Then the other sees it within a second and typing status appears during composing
+      checklist:
+        - [ ] Read receipt markers update
+        - [ ] File uploads guarded by storage RLS
+    dependencies: ["M4-DB-MSG"]
+    risk: {level: Med, notes: "Network/state synchronization."}
+    rollback_plan: "Fallback to polling; disable presence temporarily."
+    est_complexity: M
+
+  - id: M4-NOTIFICATIONS
+    title: Notifications and optional web push subscriptions
+    description: >
+      Create notifications and push_subscriptions; enqueue notifications on DM or order status changes.
+      If push unsupported or denied, send email fallback.
+      PDF: Communication & Agreements; PWA.
+    owner_agent: Social & Messaging (Realtime)
+    milestone: M4: Social & Messaging (posts, comments, realtime chat, notifications)
+    inputs:
+      docs: ["PDF: Communication & Agreements", "PDF: Tech Stack Implementation (PWA/push)"]
+      env: ["VAPID_PUBLIC_KEY", "VAPID_PRIVATE_KEY"]
+    outputs:
+      code: ["lib/push/send.ts", "components/notifications/SubscribeButton.tsx"]
+      db: ["notifications", "push_subscriptions", "policies/notifications.sql"]
+      tests: ["__tests__/notifications/push.spec.ts"]
+      docs: ["docs/notifications.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a new DM
+        When the recipient is offline and has a push subscription
+        Then a web push notification is delivered
+      checklist:
+        - [ ] Unsubscribe works
+        - [ ] Email fallback path described
+    dependencies: ["M4-DB-MSG"]
+    risk: {level: Med, notes: "Browser support variability; CSP allowances."}
+    rollback_plan: "Disable push; rely on email-only notifications."
+    est_complexity: M
+
+  - id: M5-DB-REVIEWS
+    title: Reviews with verified flag, moderation and unique constraint
+    description: >
+      Implement reviews, review_responses with RLS: public sees approved; authors and store staff see pending.
+      Verified flag set when an order_item exists for the user/product. Unique (product_id, user_id).
+      PDF: Review & Rating System.
+    owner_agent: Reviews & Moderation (Trust & Safety)
+    milestone: M5: Reviews, Ratings, Moderation & Reporting
+    inputs:
+      docs: ["PDF: Review & Rating System"]
+      env: []
+    outputs:
+      code: ["supabase/migrations/0007_reviews.sql"]
+      db: ["reviews", "review_responses", "policies/reviews.sql"]
+      tests: ["supabase/tests/rls.reviews.spec.sql"]
+      docs: ["docs/reviews-flow.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a delivered order
+        When the buyer posts a review
+        Then it appears pending in seller admin and shows as approved after moderation
+      checklist:
+        - [ ] Unique index prevents duplicates
+        - [ ] Verified badge computed
+    dependencies: ["M3-DB-ORDERS"]
+    risk: {level: Med, notes: "Moderation fairness; legal labeling."}
+    rollback_plan: "Disable public display and keep private while debugging."
+    est_complexity: M
+
+  - id: M5-MOD-QUEUE
+    title: Abuse reports and moderation queue with admin view
+    description: >
+      Add abuse_reports and moderation_queue; simple admin list to triage reported items and review appeals.
+      Store audit_log entries for decisions.
+      PDF: Moderation & Reporting; Security/Privacy/Moderation bar.
+    owner_agent: Admin Console & Compliance
+    milestone: M5: Reviews, Ratings, Moderation & Reporting
+    inputs:
+      docs: ["PDF: Security, Privacy, and Moderation (minimum bar)", "PDF: Review & Rating System"]
+      env: []
+    outputs:
+      code: ["app/[locale]/admin/moderation/page.tsx"]
+      db: ["abuse_reports", "moderation_queue", "policies/moderation.sql"]
+      tests: ["__tests__/admin/moderation.spec.ts"]
+      docs: ["docs/moderation-process.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a reported review
+        When a platform admin opens the moderation page
+        Then they can approve/remove and the action is logged
+      checklist:
+        - [ ] Reporter can submit
+        - [ ] Admin-only visibility ensured
+    dependencies: ["M5-DB-REVIEWS"]
+    risk: {level: Med, notes: "Admin-only data exposure risk."}
+    rollback_plan: "Hide admin UI; use direct DB for emergency actions."
+    est_complexity: M
+
+  - id: M5-PROFANITY
+    title: Basic profanity/abuse filter for reviews and comments
+    description: >
+      Create a minimal banned-word list (PL/EN) and server-side check for submissions in reviews/comments.
+      Reject egregious content and flag borderline for moderator attention.
+      PDF: Review & Rating System (heuristics).
+    owner_agent: Reviews & Moderation (Trust & Safety)
+    milestone: M5: Reviews, Ratings, Moderation & Reporting
+    inputs:
+      docs: ["PDF: Review & Rating System"]
+      env: []
+    outputs:
+      code: ["lib/moderation/profanity.ts", "lib/moderation/terms.json"]
+      db: ["triggers/moderation_flags.sql"]
+      tests: ["__tests__/moderation/profanity.spec.ts"]
+      docs: ["docs/content-guidelines.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a comment containing a banned term
+        When submitted
+        Then it is rejected with a clear message and optionally flagged
+      checklist:
+        - [ ] PL and EN lists loaded
+        - [ ] False-positive tests considered
+    dependencies: ["M4-DB-SOCIAL", "M5-DB-REVIEWS"]
+    risk: {level: Low, notes: "Heuristic only; transparency needed."}
+    rollback_plan: "Switch to soft-flag mode only."
+    est_complexity: S
+
+  - id: M5-RATE-LIMIT
+    title: Postgres token-bucket RPC and wiring in API routes
+    description: >
+      Implement a token-bucket table and function; call it from messaging, comments, and reviews routes;
+      optionally, add triggers to enforce limits at DB-level for insert-heavy tables.
+      PDF: Data Privacy & Security (Rate Limiting).
+    owner_agent: Auth & Security Engineer
+    milestone: M5: Reviews, Ratings, Moderation & Reporting
+    inputs:
+      docs: ["PDF: Data Privacy & Security"]
+      env: []
+    outputs:
+      code: ["supabase/migrations/0008_rate_limit.sql", "lib/rate-limit/check.ts"]
+      db: ["token_buckets", "fn_take_token()"]
+      tests: ["supabase/tests/rate-limit.spec.sql", "__tests__/rate-limit/api.spec.ts"]
+      docs: ["docs/rate-limiting.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a user sending messages too fast
+        When they exceed the threshold
+        Then API responds with 429 and DB insert is blocked
+      checklist:
+        - [ ] Limits for DM, comments, reviews
+        - [ ] Configurable refill rates
+    dependencies: ["M4-DB-MSG", "M4-DB-SOCIAL"]
+    risk: {level: Med, notes: "Balance UX with abuse prevention."}
+    rollback_plan: "Relax thresholds; disable DB triggers while tuning."
+    est_complexity: M
+
+  - id: M6-ADMIN-SELLER
+    title: Seller admin console (products, orders, reviews, staff, tasks)
+    description: >
+      Implement a cohesive seller admin with tabs for products, orders (ship/deliver), reviews (approve), staff invites, and contractor tasks.
+      Ensure all actions are RLS-compatible and audited.
+      PDF: Minimum Viable Admin UI; Workforce Sharing; Tasks & Contracts.
+    owner_agent: Admin Console & Compliance
+    milestone: M6: Admin Console, Compliance hooks, Auditing
+    inputs:
+      docs: ["PDF: Minimum Viable Admin UI", "PDF: Workforce Sharing", "PDF: Communication & Agreements"]
+      env: []
+    outputs:
+      code: ["app/[locale]/admin/[tenant]/(console)/**"]
+      db: []
+      tests: ["__tests__/admin/seller-console.spec.ts"]
+      docs: ["docs/admin-seller.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a seller owner
+        When opening the admin
+        Then they can manage products, orders, reviews, staff and tasks within their tenant
+      checklist:
+        - [ ] Invite flows create memberships and audit entries
+        - [ ] Shipments and review approvals work
+    dependencies: ["M2-UI-STOREFRONT", "M3-SHIPPING", "M5-DB-REVIEWS"]
+    risk: {level: Med, notes: "Breadth of UI; ensure a11y and i18n."}
+    rollback_plan: "Deliver features incrementally behind flags."
+    est_complexity: L
+
+  - id: M6-PLATFORM-ADMIN
+    title: Minimal platform admin moderation view
+    description: >
+      Provide a platform admin area with global moderation queue and ability to override seller decisions in exceptional cases.
+      Restrict via admin table/claim in RLS.
+      PDF: Review & Rating System (oversight); Data Modeling & RLS Patterns.
+    owner_agent: Admin Console & Compliance
+    milestone: M6: Admin Console, Compliance hooks, Auditing
+    inputs:
+      docs: ["PDF: Review & Rating System", "PDF: Data Modeling & RLS Patterns"]
+      env: []
+    outputs:
+      code: ["app/[locale]/admin/platform/moderation/page.tsx"]
+      db: ["admins table", "policies/admins.sql"]
+      tests: ["__tests__/admin/platform-oversight.spec.ts"]
+      docs: ["docs/platform-admin.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a pending or appealed review
+        When the platform admin reviews it
+        Then they can publish or remove with justification
+      checklist:
+        - [ ] Admin-only access enforced at RLS
+        - [ ] Decisions audited
+    dependencies: ["M5-MOD-QUEUE"]
+    risk: {level: Med, notes: "Ensure admin role is not spoofable."}
+    rollback_plan: "Restrict access to service-role API only temporarily."
+    est_complexity: M
+
+  - id: M6-LEGAL-PAGES
+    title: PL/EN Terms, Privacy, Returns and cookie consent
+    description: >
+      Publish bilingual Terms (Regulamin), Privacy (Polityka prywatności), returns/withdrawal info (14 days) and cookie consent banner.
+      Add Omnibus disclosures (verified reviews method, result sorting by relevance).
+      PDF: Compliance & Legal (Poland/EU).
+    owner_agent: Admin Console & Compliance
+    milestone: M6: Admin Console, Compliance hooks, Auditing
+    inputs:
+      docs: ["PDF: Compliance & Legal (Poland/EU)"]
+      env: []
+    outputs:
+      code: ["app/[locale]/legal/terms/page.tsx", "app/[locale]/legal/privacy/page.tsx", "components/CookieBanner.tsx"]
+      db: []
+      tests: ["__tests__/legal/cookie-consent.spec.ts"]
+      docs: ["docs/compliance-checklist-uokik.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a new visitor
+        When the site loads
+        Then cookie consent is presented and stored
+        And legal pages display PL/EN content including 14-day withdrawal
+      checklist:
+        - [ ] Verified review method disclosed
+        - [ ] Seller info placement checks
+    dependencies: ["M1-I18N-PWA-BASE", "M5-DB-REVIEWS"]
+    risk: {level: Med, notes: "Wording accuracy; translations."}
+    rollback_plan: "Temporarily link to hosted docs while refining copy."
+    est_complexity: S
+
+  - id: M6-AUDIT-LOG
+    title: Audit log triggers and viewer
+    description: >
+      Add audit_log table writers for critical actions (prices, roles, moderation, refunds) via triggers or API calls.
+      Provide admin-only viewer.
+      PDF: Data Privacy & Security (Audit Logs).
+    owner_agent: Auth & Security Engineer
+    milestone: M6: Admin Console, Compliance hooks, Auditing
+    inputs:
+      docs: ["PDF: Data Privacy & Security"]
+      env: []
+    outputs:
+      code: ["supabase/migrations/0009_audit.sql", "app/[locale]/admin/platform/audit/page.tsx"]
+      db: ["audit_log", "triggers/audit/*.sql"]
+      tests: ["supabase/tests/audit.spec.sql"]
+      docs: ["docs/audit-log.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a price change
+        When saved
+        Then an audit row is created including actor and before/after values
+      checklist:
+        - [ ] Admin-only read
+        - [ ] Coverage for roles, moderation, refunds
+    dependencies: ["M1-SUPABASE-BOOT"]
+    risk: {level: Med, notes: "Trigger performance; privacy of details."}
+    rollback_plan: "Switch to app-level logging while tuning triggers."
+    est_complexity: M
+
+  - id: M6-DSR-STUBS
+    title: Data export & deletion stubs
+    description: >
+      Provide account export (JSON download) and deletion request stub (with anonymization of orders).
+      Document retention policy and manual fallback.
+      PDF: Compliance & Legal (GDPR/RODO).
+    owner_agent: Admin Console & Compliance
+    milestone: M6: Admin Console, Compliance hooks, Auditing
+    inputs:
+      docs: ["PDF: Compliance & Legal (Poland/EU)"]
+      env: []
+    outputs:
+      code: ["app/[locale]/account/export/page.tsx", "app/[locale]/account/delete/page.tsx"]
+      db: ["functions/export_user_data.sql"]
+      tests: ["__tests__/privacy/export-delete.spec.ts"]
+      docs: ["docs/privacy-retention.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a user
+        When requesting export
+        Then a JSON bundle is generated for their personal data
+        And a deletion request creates an anonymization task
+      checklist:
+        - [ ] Orders anonymize personal fields
+        - [ ] Confirmation emails described
+    dependencies: ["M1-AUTH-SSR"]
+    risk: {level: Med, notes: "Scope of data; privacy redaction."}
+    rollback_plan: "Disable self-serve UI and provide support email fallback."
+    est_complexity: M
+
+  - id: M7-E2E-TESTS
+    title: E2E tests for critical happy paths (PL/EN)
+    description: >
+      Write Playwright tests for signup/login, product creation and purchase, DM exchanges, review approval, and search relevance.
+      Include RLS negative tests to prove tenant isolation.
+      PDF: MVP Milestones & Acceptance Criteria.
+    owner_agent: Observability & QA
+    milestone: M7: Hardening (perf, a11y, security, smoke/E2E), Launch prep
+    inputs:
+      docs: ["PDF: MVP Milestones & Acceptance Criteria"]
+      env: []
+    outputs:
+      code: ["e2e/*.spec.ts"]
+      db: []
+      tests: ["e2e/*.spec.ts"]
+      docs: ["docs/test-plan.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a test database
+        When running the suite
+        Then all critical flows pass in PL and EN
+        And isolation tests verify RLS
+      checklist:
+        - [ ] Smoke passes in CI
+        - [ ] Screenshots/videos recorded
+    dependencies: ["M3-WEBHOOKS-STRIPE", "M4-REALTIME-UI", "M5-DB-REVIEWS"]
+    risk: {level: Med, notes: "Flakiness of realtime flows."}
+    rollback_plan: "Mark flaky tests and stabilize with retries while fixing root causes."
+    est_complexity: M
+
+  - id: M7-PERF-INDEXES
+    title: Perf pass: indexes, revalidation, caching
+    description: >
+      Review slow queries; add/adjust indexes; set revalidate hints for public pages; ensure image and page caching strategies.
+      Baseline TTFB and FCP with Lighthouse.
+      PDF: Tech Stack Implementation (ISR/caching); Search indexing.
+    owner_agent: Platform Architect
+    milestone: M7: Hardening (perf, a11y, security, smoke/E2E), Launch prep
+    inputs:
+      docs: ["PDF: Tech Stack Implementation", "PDF: Matching & Search Algorithms"]
+      env: []
+    outputs:
+      code: ["indexes/*.sql", "perf/reports/*.md"]
+      db: []
+      tests: ["__tests__/perf/queries.spec.ts"]
+      docs: ["docs/perf-guide.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given production-like data
+        When running perf checks
+        Then key pages render within target TTFB and search uses indexes
+      checklist:
+        - [ ] No sequential scans on search paths
+        - [ ] Static pages revalidate sanely
+    dependencies: ["M2-SEARCH-FTS", "M2-UI-STOREFRONT"]
+    risk: {level: Med, notes: "Over-caching may show stale data."}
+    rollback_plan: "Lower cache TTLs and force revalidate where needed."
+    est_complexity: M
+
+  - id: M7-CSP-CSRF
+    title: Enforce CSP and CSRF protections
+    description: >
+      Add strict CSP headers allowing only self, Supabase and Stripe; implement double-submit cookie CSRF tokens for POST routes.
+      Validate via automated tests and manual probes.
+      PDF: Data Privacy & Security (CSP, CSRF).
+    owner_agent: Auth & Security Engineer
+    milestone: M7: Hardening (perf, a11y, security, smoke/E2E), Launch prep
+    inputs:
+      docs: ["PDF: Data Privacy & Security"]
+      env: []
+    outputs:
+      code: ["lib/security/csp.ts", "lib/security/csrf.ts"]
+      db: []
+      tests: ["__tests__/security/csp-csrf.spec.ts"]
+      docs: ["docs/security-model.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given production build
+        When requesting any page
+        Then CSP header is present
+        And POST endpoints reject missing/invalid CSRF tokens
+      checklist:
+        - [ ] Stripe frame allowed only on checkout
+        - [ ] No inline scripts allowed
+    dependencies: ["M1-AUTH-SSR"]
+    risk: {level: Med, notes: "Header regressions; token handling."}
+    rollback_plan: "Relax CSP incrementally; switch endpoints to same-origin only while fixing."
+    est_complexity: S
+
+  - id: M7-PWA-PLUS
+    title: Offline cache for last-visited pages and queued cart ops
+    description: >
+      Enhance SW to cache last visited product/store pages and queue cart changes offline for background sync on reconnect.
+      Provide an offline fallback page.
+      PDF: Tech Stack Implementation (PWA); Engagement-first scope.
+    owner_agent: i18n & PWA
+    milestone: M7: Hardening (perf, a11y, security, smoke/E2E), Launch prep
+    inputs:
+      docs: ["PDF: Tech Stack Implementation", "PDF: Engagement-First MVP Scope"]
+      env: []
+    outputs:
+      code: ["public/sw.js", "components/OfflineBanner.tsx"]
+      db: []
+      tests: ["__tests__/pwa/offline-queue.spec.ts"]
+      docs: ["docs/pwa-offline.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given offline state
+        When opening a previously viewed product
+        Then the page renders from cache
+        And cart changes queue and sync after reconnect
+      checklist:
+        - [ ] Background sync used where supported
+        - [ ] Clear offline UX banner
+    dependencies: ["M1-I18N-PWA-BASE", "M3-DB-CART"]
+    risk: {level: Med, notes: "Browser support variance; race conditions."}
+    rollback_plan: "Disable queue and show read-only offline cache."
+    est_complexity: M
+
+  - id: M7-I18N-A11Y
+    title: i18n and accessibility sweep
+    description: >
+      Ensure complete PL/EN coverage and WCAG 2.1 AA patterns (labels, focus, contrast).
+      Validate currency/date formats and email templates per locale.
+      PDF: Locales & UX Requirements (PL/EN).
+    owner_agent: i18n & PWA
+    milestone: M7: Hardening (perf, a11y, security, smoke/E2E), Launch prep
+    inputs:
+      docs: ["PDF: Locales & UX Requirements"]
+      env: []
+    outputs:
+      code: ["locales/*.json", "components/a11y/*"]
+      db: []
+      tests: ["__tests__/i18n/a11y.spec.ts"]
+      docs: ["docs/i18n-coverage.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given PL and EN locales
+        When navigating all core pages
+        Then UI strings are localized and pass basic a11y checks
+      checklist:
+        - [ ] Currency PLN formatted correctly
+        - [ ] Images have alt text
+    dependencies: ["M2-UI-STOREFRONT", "M6-LEGAL-PAGES"]
+    risk: {level: Low, notes: "Mostly content coverage."}
+    rollback_plan: "Flag missing strings and default to PL while adding EN copy."
+    est_complexity: S
+
+  - id: M7-BACKUP-RUNBOOK
+    title: Backup & recovery runbook and test
+    description: >
+      Verify Supabase backups and optionally create a pg_dump to Storage; document restore steps.
+      Add a small disaster-recovery drill.
+      PDF: Data Privacy & Security (Backups & Recovery).
+    owner_agent: Observability & QA
+    milestone: M7: Hardening (perf, a11y, security, smoke/E2E), Launch prep
+    inputs:
+      docs: ["PDF: Data Privacy & Security"]
+      env: []
+    outputs:
+      code: ["scripts/backup.sh"]
+      db: []
+      tests: ["docs/dr-drill.md"]
+      docs: ["docs/backup-runbook.md"]
+    acceptance_criteria:
+      gherkin: |
+        Given a backup artifact
+        When simulating a restore in dev
+        Then the schema and sample data are recovered successfully
+      checklist:
+        - [ ] Backups scheduled/verified
+        - [ ] Restore steps documented
+    dependencies: ["M1-SUPABASE-BOOT"]
+    risk: {level: Low, notes: "Operational; ensure permissions."}
+    rollback_plan: "Rely on Supabase PITR while scripts stabilize."
+    est_complexity: S
