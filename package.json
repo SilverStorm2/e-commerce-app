@@ -1,0 +1,45 @@
+{
+  "name": "e-commerce-app",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "lint:staged": "lint-staged",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "lucide-react": "^0.453.0",
+    "next": "14.2.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "tailwind-merge": "^2.2.2",
+    "tailwindcss": "4.0.0-alpha.15"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.5",
+    "jsdom": "^24.0.0",
+    "lint-staged": "^15.2.7",
+    "postcss": "^8.4.35",
+    "prettier": "^3.3.3",
+    "typescript": "^5.4.5",
+    "vite": "^5.1.4",
+    "vitest": "^1.4.0"
+  }
+}
