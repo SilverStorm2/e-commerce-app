@@ -16,8 +16,7 @@ const playfair = PlayfairDisplay({
 
 export const metadata: Metadata = {
   title: "Stylowa Przygoda Marketplace",
-  description:
-    "Community-centric multi-vendor marketplace for Polish and English shoppers.",
+  description: "Community-centric multi-vendor marketplace for Polish and English shoppers.",
 };
 
 type RootLayoutProps = Readonly<{

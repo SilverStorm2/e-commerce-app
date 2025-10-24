@@ -18,9 +18,7 @@ describe("Home Landing", () => {
         name: plDictionary.hero.title,
       }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(plDictionary.hero.subtitle, { exact: false }),
-    ).toBeInTheDocument();
+    expect(screen.getByText(plDictionary.hero.subtitle, { exact: false })).toBeInTheDocument();
   });
 
   it("renders the English hero content", () => {
@@ -35,8 +33,6 @@ describe("Home Landing", () => {
         name: enDictionary.hero.title,
       }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(enDictionary.hero.subtitle, { exact: false }),
-    ).toBeInTheDocument();
+    expect(screen.getByText(enDictionary.hero.subtitle, { exact: false })).toBeInTheDocument();
   });
 });

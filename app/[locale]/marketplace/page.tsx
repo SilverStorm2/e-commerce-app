@@ -6,9 +6,7 @@ type MarketplacePageProps = {
   params: { locale: Locale };
 };
 
-export default async function MarketplacePage({
-  params,
-}: MarketplacePageProps) {
+export default async function MarketplacePage({ params }: MarketplacePageProps) {
   const dictionary = await getDictionary(params.locale);
 
   return (

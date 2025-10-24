@@ -17,9 +17,7 @@ export function HomeHero() {
           <h1 className="text-3xl font-semibold text-foreground sm:text-4xl md:text-5xl">
             {dictionary.hero.title}
           </h1>
-          <p className="text-lg text-muted-foreground">
-            {dictionary.hero.subtitle}
-          </p>
+          <p className="text-lg text-muted-foreground">{dictionary.hero.subtitle}</p>
           <div className="flex flex-wrap items-center gap-3">
             <Button size="lg" asChild>
               <a href={`/${locale}/marketplace`}>{dictionary.hero.cta}</a>

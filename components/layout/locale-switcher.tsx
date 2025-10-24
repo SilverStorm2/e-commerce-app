@@ -40,9 +40,7 @@ export function LocaleSwitcher() {
       >
         {locales.map((option) => (
           <option key={option} value={option}>
-            {option === "pl"
-              ? dictionary.localeSwitcher.polish
-              : dictionary.localeSwitcher.english}
+            {option === "pl" ? dictionary.localeSwitcher.polish : dictionary.localeSwitcher.english}
           </option>
         ))}
       </select>

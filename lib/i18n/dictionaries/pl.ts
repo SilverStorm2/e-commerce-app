@@ -46,12 +46,10 @@ const dictionary = {
         "Załóż konto jako kupujący lub sprzedawca i dołącz do społeczności Stylowej Przygody.",
     },
     stores: {
-      description:
-        "Poznaj niezależne sklepy, ich kategorie oraz członków zespołu.",
+      description: "Poznaj niezależne sklepy, ich kategorie oraz członków zespołu.",
     },
     legalPrivacy: {
-      description:
-        "Dowiedz się, w jaki sposób przetwarzamy dane osobowe zgodnie z RODO.",
+      description: "Dowiedz się, w jaki sposób przetwarzamy dane osobowe zgodnie z RODO.",
     },
     legalTerms: {
       description:

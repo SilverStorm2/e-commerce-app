@@ -6,9 +6,7 @@ type ContractorsPageProps = {
   params: { locale: Locale };
 };
 
-export default async function ContractorsPage({
-  params,
-}: ContractorsPageProps) {
+export default async function ContractorsPage({ params }: ContractorsPageProps) {
   const dictionary = await getDictionary(params.locale);
 
   return (

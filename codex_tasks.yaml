@@ -11,7 +11,7 @@ milestones:
   - M7: Hardening (perf, a11y, security, smoke/E2E), Launch prep
 
 tasks:
-  - id: M0-REPO-SKEL // complete
+  - id: M0-REPO-SKEL // completed
     title: Initialize Next.js App Router repo with Tailwind v4 + shadcn/ui and TypeScript
     description: >
       Create the repository scaffold on Vercel with Next.js (App Router), TypeScript, Tailwind v4 and shadcn/ui.

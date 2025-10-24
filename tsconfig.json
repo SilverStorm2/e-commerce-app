@@ -19,11 +19,7 @@
     "noEmit": true,
     "jsx": "preserve",
     "incremental": true,
-    "types": [
-      "vitest/globals",
-      "vitest/importMeta",
-      "@testing-library/jest-dom"
-    ],
+    "types": ["vitest/globals", "vitest/importMeta", "@testing-library/jest-dom"],
     "plugins": [
       {
         "name": "next"

@@ -35,17 +35,12 @@ export async function generateMetadata({
     description: dictionary.meta.description,
     alternates: {
       canonical: `${siteUrl}/${locale}`,
-      languages: Object.fromEntries(
-        locales.map((code) => [code, `${siteUrl}/${code}`]),
-      ),
+      languages: Object.fromEntries(locales.map((code) => [code, `${siteUrl}/${code}`])),
     },
   };
 }
 
-export default async function LocaleLayout({
-  children,
-  params,
-}: LocaleLayoutProps) {
+export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const locale = params.locale as Locale;
 
   if (!locales.includes(locale)) {

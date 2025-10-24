@@ -6,8 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --max-warnings=0",
+    "lint:fix": "next lint --fix",
     "typecheck": "tsc --noEmit",
+    "format": "prettier --check .",
+    "format:write": "prettier --write .",
+    "prepare": "git config core.hooksPath .husky",
     "lint:staged": "lint-staged",
     "test": "vitest run",
     "test:watch": "vitest"

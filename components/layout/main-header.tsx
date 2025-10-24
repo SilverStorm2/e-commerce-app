@@ -43,10 +43,7 @@ export function MainHeader() {
           >
             {dictionary.navigation.login}
           </Link>
-          <Link
-            href={`/${locale}/signup`}
-            className={cn(buttonVariants({ size: "sm" }))}
-          >
+          <Link href={`/${locale}/signup`} className={cn(buttonVariants({ size: "sm" }))}>
             {dictionary.navigation.signup}
           </Link>
           <LocaleSwitcher />

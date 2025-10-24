@@ -17,12 +17,8 @@ export function HomeLanding() {
                 key={feature.title}
                 className="rounded-2xl border border-border bg-card p-6 shadow-sm"
               >
-                <h3 className="text-lg font-semibold text-foreground">
-                  {feature.title}
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {feature.description}
-                </p>
+                <h3 className="text-lg font-semibold text-foreground">{feature.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{feature.description}</p>
               </div>
             ))}
           </div>

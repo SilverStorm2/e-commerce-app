@@ -17,16 +17,8 @@ type LocaleProviderProps = {
   children: React.ReactNode;
 };
 
-export function LocaleProvider({
-  locale,
-  dictionary,
-  children,
-}: LocaleProviderProps) {
-  return (
-    <LocaleContext.Provider value={{ locale, dictionary }}>
-      {children}
-    </LocaleContext.Provider>
-  );
+export function LocaleProvider({ locale, dictionary, children }: LocaleProviderProps) {
+  return <LocaleContext.Provider value={{ locale, dictionary }}>{children}</LocaleContext.Provider>;
 }
 
 export function useLocale() {
