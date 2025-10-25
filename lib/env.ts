@@ -21,6 +21,11 @@ const clientEnv: Record<EnvKey, string> = requiredClientEnv.reduce(
 );
 
 export function getEnv(key: EnvKey): string {
+  const runtimeValue = process.env[key];
+  if (typeof runtimeValue === "string") {
+    return runtimeValue;
+  }
+
   return clientEnv[key];
 }
 

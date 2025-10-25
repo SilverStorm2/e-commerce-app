@@ -17,6 +17,7 @@ const dictionary = {
     contractors: "Współpraca",
     login: "Zaloguj się",
     signup: "Dołącz teraz",
+    admin: "Panel sprzedawcy",
   },
   pageTitles: {
     stores: "Sklepy",
@@ -43,6 +44,10 @@ const dictionary = {
     },
     signup: {
       description: "Załóż konto jako kupujący lub sprzedawca i dołącz do społeczności e-commerce.",
+    },
+    admin: {
+      description:
+        "Zarządzaj produktami, zamówieniami, zespołem i komunikacją z kupującymi w jednym miejscu.",
     },
     stores: {
       description: "Poznaj niezależne sklepy, ich kategorie oraz członków zespołu.",

@@ -17,6 +17,7 @@ const dictionary = {
     contractors: "Hire experts",
     login: "Sign in",
     signup: "Join now",
+    admin: "Seller admin",
   },
   pageTitles: {
     stores: "Stores",
@@ -40,6 +41,10 @@ const dictionary = {
     },
     signup: {
       description: "Register as a buyer or seller and become part of the e-commerce community.",
+    },
+    admin: {
+      description:
+        "Manage catalog, orders, team members, and buyer conversations from one console.",
     },
     stores: {
       description: "Meet independent stores, their product lines, and the teams behind them.",
