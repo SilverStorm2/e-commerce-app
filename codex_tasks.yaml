@@ -138,7 +138,7 @@ tasks:
     rollback_plan: "Disable matcher and fall back to client-side guard while investigating."
     est_complexity: S
 
-  - id: M1-I18N-PWA-BASE
+  - id: M1-I18N-PWA-BASE // completed
     title: i18n scaffolding (PL/EN) + PWA manifest and basic SW
     description: >
       Add translation packs and locale utilities; ensure all top-level navigation and auth copies exist in Polish and English.
@@ -169,7 +169,7 @@ tasks:
     rollback_plan: "Unregister SW and remove registration while fixing issues."
     est_complexity: S
 
-  - id: M2-DB-CATALOG
+  - id: M2-DB-CATALOG // completed
     title: Implement catalog tables, media and inventory ledger
     description: >
       Create products, categories, product_media tables, plus a minimal inventory ledger table to record stock changes.
