@@ -90,6 +90,79 @@
       "hint": "Returns workflow will launch together with orders and fulfilment."
     }
   },
+  "contractors": {
+    "directory": {
+      "title": "Find trusted contractors",
+      "subtitle": "Browse vetted specialists ready to help with growth, fulfilment, and store operations across Poland and the EU.",
+      "tasksCta": "Go to My Tasks workspace",
+      "countLabel": "Found {count} contractors",
+      "error": "We couldn't load the directory right now. Please try again.",
+      "emptyTitle": "No contractors match these filters",
+      "emptyDescription": "Adjust the filters or check back soon - new specialists join the marketplace every week."
+    },
+    "filters": {
+      "searchLabel": "Search by keyword",
+      "searchPlaceholder": "UX design, performance marketing, logistics...",
+      "skillLabel": "Skill focus",
+      "anySkill": "Any skill",
+      "serviceAreaLabel": "Service area",
+      "anyServiceArea": "Anywhere",
+      "submit": "Apply filters",
+      "reset": "Reset",
+      "skills": {
+        "store_setup": "Store setup & migrations",
+        "performance_marketing": "Performance marketing",
+        "copywriting": "Copywriting & localisation",
+        "logistics": "Logistics & fulfilment",
+        "design": "UI/UX design",
+        "customer_support": "Customer support"
+      },
+      "serviceAreas": {
+        "remote": "Remote / EU",
+        "mazowieckie": "Mazowieckie region",
+        "malopolskie": "Malopolskie region",
+        "slaskie": "Slaskie region",
+        "pomorskie": "Pomorskie region"
+      }
+    },
+    "badges": {
+      "featured": "Featured"
+    },
+    "languageLabels": {
+      "pl": "Polish",
+      "en": "English",
+      "de": "German",
+      "ua": "Ukrainian"
+    },
+    "card": {
+      "viewProfile": "View profile",
+      "skillsHeading": "Core skills",
+      "serviceAreasHeading": "Service areas",
+      "languagesHeading": "Languages",
+      "availabilityLabel": "Availability",
+      "hourlyLabel": "Hourly rate",
+      "hourlyFrom": "From {price}/h"
+    },
+    "detail": {
+      "backLink": "Back to directory",
+      "hourlyHeading": "Hourly rate",
+      "availabilityHeading": "Availability",
+      "preferredCollaboration": "Collaboration",
+      "languagesHeading": "Languages",
+      "contactHeading": "Contact",
+      "emailLabel": "Email",
+      "phoneLabel": "Phone",
+      "missingContact": "No contact details listed.",
+      "serviceAreasHeading": "Service areas",
+      "skillsHeading": "Core skills",
+      "aboutHeading": "About"
+    },
+    "tasks": {
+      "title": "My Tasks workspace",
+      "description": "This space will host briefs from store owners, scope discussions, and secure file hand-offs for contractors.",
+      "hint": "Task management for contractors ships with the collaboration milestone (M3)."
+    }
+  },
   "footer": {
     "rights": "Copyright e-commerce {year}. All rights reserved."
   },

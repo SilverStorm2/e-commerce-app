@@ -124,5 +124,78 @@
     "stockStatusLabel": "Dostępność",
     "stockStatusUnknown": "Skontaktuj się ze sprzedawcą",
     "backToStoreCta": "Wróć do sklepu"
+  },
+  "contractors": {
+    "directory": {
+      "title": "Znajdź sprawdzonych wykonawców",
+      "subtitle": "Przeglądaj specjalistów gotowych wesprzeć Twój sklep w rozwoju, logistyce i codziennych operacjach.",
+      "tasksCta": "Przejdź do panelu Moje Zadania",
+      "countLabel": "Znaleziono {count} wykonawców",
+      "error": "Nie udało się załadować katalogu. Spróbuj ponownie.",
+      "emptyTitle": "Brak wykonawców spełniających kryteria",
+      "emptyDescription": "Zmień filtry lub zajrzyj wkrótce – do społeczności regularnie dołączają nowi specjaliści."
+    },
+    "filters": {
+      "searchLabel": "Szukaj po słowach kluczowych",
+      "searchPlaceholder": "UX, marketing efektywnościowy, logistyka…",
+      "skillLabel": "Obszar specjalizacji",
+      "anySkill": "Dowolna specjalizacja",
+      "serviceAreaLabel": "Obsługiwany obszar",
+      "anyServiceArea": "Dowolnie",
+      "submit": "Zastosuj filtry",
+      "reset": "Wyczyść",
+      "skills": {
+        "store_setup": "Wdrożenia sklepów i migracje",
+        "performance_marketing": "Marketing efektywnościowy",
+        "copywriting": "Copywriting i lokalizacja",
+        "logistics": "Logistyka i fulfilment",
+        "design": "Projektowanie UI/UX",
+        "customer_support": "Obsługa klienta"
+      },
+      "serviceAreas": {
+        "remote": "Zdalnie / UE",
+        "mazowieckie": "Woj. mazowieckie",
+        "malopolskie": "Woj. małopolskie",
+        "slaskie": "Woj. śląskie",
+        "pomorskie": "Woj. pomorskie"
+      }
+    },
+    "badges": {
+      "featured": "Polecany"
+    },
+    "languageLabels": {
+      "pl": "Polski",
+      "en": "Angielski",
+      "de": "Niemiecki",
+      "ua": "Ukraiński"
+    },
+    "card": {
+      "viewProfile": "Zobacz profil",
+      "skillsHeading": "Kluczowe kompetencje",
+      "serviceAreasHeading": "Obsługiwane obszary",
+      "languagesHeading": "Języki",
+      "availabilityLabel": "Dostępność",
+      "hourlyLabel": "Stawka godzinowa",
+      "hourlyFrom": "Od {price}/h"
+    },
+    "detail": {
+      "backLink": "Wróć do katalogu",
+      "hourlyHeading": "Stawka godzinowa",
+      "availabilityHeading": "Dostępność",
+      "preferredCollaboration": "Model współpracy",
+      "languagesHeading": "Języki",
+      "contactHeading": "Kontakt",
+      "emailLabel": "E-mail",
+      "phoneLabel": "Telefon",
+      "missingContact": "Brak podanych danych kontaktowych.",
+      "serviceAreasHeading": "Obsługiwane obszary",
+      "skillsHeading": "Kluczowe kompetencje",
+      "aboutHeading": "O specjaliście"
+    },
+    "tasks": {
+      "title": "Panel Moje Zadania",
+      "description": "Tutaj pojawią się briefy od właścicieli sklepów, ustalenia zakresów i bezpieczne przekazywanie plików.",
+      "hint": "Moduł zadań dla wykonawców udostępnimy wraz z wdrożeniem współpracy (kamień milowy M3)."
+    }
   }
 }
