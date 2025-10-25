@@ -97,5 +97,32 @@
     "label": "Change language",
     "polish": "Polski",
     "english": "English"
+  },
+  "storefront": {
+    "metaTitleSuffix": "Marketplace Store",
+    "metaDescriptionFallback": "Browse products from this independent store on our community marketplace.",
+    "notFoundTitle": "Store not found",
+    "productNotFoundTitle": "Product not found",
+    "productNotFoundDescription": "The product may be unpublished or removed by the seller.",
+    "productListHeading": "Products",
+    "productListDescription": "Explore the latest published products from this seller.",
+    "emptyStateTitle": "No products yet",
+    "emptyStateDescription": "The seller has not published products yet. Please check back soon.",
+    "viewProductCta": "View product",
+    "mediaPlaceholder": "Awaiting media",
+    "mediaPlaceholderHint": "Seller has not uploaded images yet.",
+    "breadcrumbLabel": "Breadcrumb",
+    "followCta": "Follow store",
+    "followingCta": "Following",
+    "followToggling": "Updating…",
+    "followHint": "Follow now to receive store updates once messaging launches.",
+    "messageCta": "Message seller",
+    "galleryLabel": "Product gallery",
+    "priceLabel": "Price",
+    "descriptionHeading": "Description",
+    "descriptionFallback": "The seller has not provided additional details yet.",
+    "stockStatusLabel": "Availability",
+    "stockStatusUnknown": "Contact seller",
+    "backToStoreCta": "Back to store"
   }
 }

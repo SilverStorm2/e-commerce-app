@@ -201,7 +201,7 @@ tasks:
       - "ASSUMPTION: Use inventory_ledger to record stock deltas; products.stock remains authoritative for MVP."
     est_complexity: M
 
-  - id: M2-UI-STOREFRONT
+  - id: M2-UI-STOREFRONT // completed
     title: Storefront pages (store grid, product detail) + follow CTA + message seller CTA
     description: >
       Implement store landing and product detail pages using server components; add Follow/Unfollow and 'Message seller' CTAs.

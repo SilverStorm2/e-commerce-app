@@ -97,5 +97,32 @@
     "label": "Zmień język",
     "polish": "Polski",
     "english": "English"
+  },
+  "storefront": {
+    "metaTitleSuffix": "Sklep marketplace",
+    "metaDescriptionFallback": "Przeglądaj produkty tego niezależnego sklepu na naszym społecznościowym rynku.",
+    "notFoundTitle": "Nie znaleziono sklepu",
+    "productNotFoundTitle": "Produkt niedostępny",
+    "productNotFoundDescription": "Produkt mógł zostać usunięty lub ukryty przez sprzedawcę.",
+    "productListHeading": "Produkty",
+    "productListDescription": "Zobacz najnowsze opublikowane produkty tego sprzedawcy.",
+    "emptyStateTitle": "Brak opublikowanych produktów",
+    "emptyStateDescription": "Sprzedawca nie opublikował jeszcze produktów. Zajrzyj ponownie wkrótce.",
+    "viewProductCta": "Zobacz produkt",
+    "mediaPlaceholder": "Brak zdjęć",
+    "mediaPlaceholderHint": "Sprzedawca nie dodał jeszcze zdjęć.",
+    "breadcrumbLabel": "Ścieżka nawigacyjna",
+    "followCta": "Obserwuj sklep",
+    "followingCta": "Obserwujesz",
+    "followToggling": "Aktualizowanie…",
+    "followHint": "Obserwowanie sklepu włączy powiadomienia, gdy uruchomimy wiadomości.",
+    "messageCta": "Napisz do sprzedawcy",
+    "galleryLabel": "Galeria produktu",
+    "priceLabel": "Cena",
+    "descriptionHeading": "Opis",
+    "descriptionFallback": "Sprzedawca nie dodał jeszcze dodatkowych informacji.",
+    "stockStatusLabel": "Dostępność",
+    "stockStatusUnknown": "Skontaktuj się ze sprzedawcą",
+    "backToStoreCta": "Wróć do sklepu"
   }
 }

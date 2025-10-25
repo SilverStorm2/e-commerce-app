@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import type { Route } from "next";
 
 import { locales } from "@/lib/i18n/config";
 import { useLocale } from "./locale-provider";
@@ -21,7 +22,7 @@ export function LocaleSwitcher() {
     startTransition(() => {
       const segments = pathname.split("/").filter(Boolean);
       const rest = segments.slice(1);
-      const target = `/${[nextLocale, ...rest].join("/")}`;
+      const target = `/${[nextLocale, ...rest].join("/")}` as Route;
       router.push(target);
     });
   };
