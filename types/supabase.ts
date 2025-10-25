@@ -351,7 +351,28 @@ export type Database = {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      search_entities: {
+        Args: {
+          search_term: string;
+          locale?: string;
+          include_products?: boolean;
+          include_contractors?: boolean;
+          limit_count?: number;
+        };
+        Returns: {
+          entity_type: string;
+          entity_id: string;
+          tenant_id: string | null;
+          slug: string | null;
+          title: string | null;
+          subtitle: string | null;
+          snippet: string | null;
+          rank: number;
+          payload: Json | null;
+        }[];
+      };
+    };
     Enums: {
       inventory_event_type:
         | "manual_adjustment"
