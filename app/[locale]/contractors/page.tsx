@@ -13,7 +13,7 @@ export default async function ContractorsPage({ params }: ContractorsPageProps) 
     <PagePlaceholder
       title={dictionary.navigation.contractors}
       description={dictionary.placeholders.contractors.description}
-      hint="Contractor discovery modules under construction."
+      hint={dictionary.placeholders.contractors.hint}
     />
   );
 }

@@ -13,7 +13,7 @@ export default async function ReturnsPage({ params }: ReturnsPageProps) {
     <PagePlaceholder
       title={dictionary.pageTitles.legalReturns}
       description={dictionary.placeholders.legalReturns.description}
-      hint="Return flows and forms will be wired with the compliance workstream."
+      hint={dictionary.placeholders.legalReturns.hint}
     />
   );
 }

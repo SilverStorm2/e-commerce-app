@@ -13,7 +13,7 @@ export default async function AdminPage({ params }: AdminPageProps) {
     <PagePlaceholder
       title={dictionary.navigation.admin}
       description={dictionary.placeholders.admin.description}
-      hint="Seller dashboards, moderation, and fulfilment workflows will live here."
+      hint={dictionary.placeholders.admin.hint}
     />
   );
 }

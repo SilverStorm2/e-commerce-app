@@ -13,7 +13,7 @@ export default async function SignupPage({ params }: SignupPageProps) {
     <PagePlaceholder
       title={dictionary.navigation.signup}
       description={dictionary.placeholders.signup.description}
-      hint="Registration flow with SSR-friendly Supabase coming soon."
+      hint={dictionary.placeholders.signup.hint}
     />
   );
 }

@@ -13,7 +13,7 @@ export default async function StoriesPage({ params }: StoriesPageProps) {
     <PagePlaceholder
       title={dictionary.navigation.stories}
       description={dictionary.placeholders.stories.description}
-      hint="Store updates feed arriving soon."
+      hint={dictionary.placeholders.stories.hint}
     />
   );
 }

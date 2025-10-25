@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "title": "e-commerce - Rynek wielosprzedawców",
+    "description": "Społecznościowy marketplace z polskimi i europejskimi sprzedawcami, aktualnościami i rozmowami w czasie rzeczywistym."
+  },
+  "hero": {
+    "badge": "Marketplace społecznościowy",
+    "title": "Odkrywaj niezależne sklepy i twórz wspólnotę kupujących",
+    "subtitle": "Jedna płatność, zamówienia od wielu sprzedawców, dwujęzyczne wsparcie i bezpieczna realizacja zgodna z RODO.",
+    "cta": "Zacznij zakupy"
+  },
+  "navigation": {
+    "marketplace": "Marketplace",
+    "stories": "Aktualności sklepów",
+    "contractors": "Współpraca",
+    "login": "Zaloguj się",
+    "signup": "Dołącz teraz",
+    "admin": "Panel sprzedawcy"
+  },
+  "pageTitles": {
+    "stores": "Sklepy",
+    "legalPrivacy": "Polityka prywatności",
+    "legalTerms": "Regulamin",
+    "legalReturns": "Zwroty i reklamacje"
+  },
+  "placeholders": {
+    "marketplace": {
+      "description": "Przeglądaj katalog produktów z wielu sklepów i filtruj według kategorii, cen oraz dostępności.",
+      "hint": "Marketplace startowy zostanie uruchomiony po wdrożeniu katalogu."
+    },
+    "stories": {
+      "description": "Czytaj aktualizacje i posty od sprzedawców, aby być na bieżąco z nowymi kolekcjami.",
+      "hint": "Kanał aktualności sklepów jest w przygotowaniu."
+    },
+    "contractors": {
+      "description": "Odkryj specjalistów i wykonawców gotowych do współpracy przy rozwoju Twojego sklepu.",
+      "hint": "Moduły wyszukiwania wykonawców budujemy na kolejne iteracje."
+    },
+    "login": {
+      "description": "Uzyskaj dostęp do panelu sprzedawcy, zamówień i wiadomości po bezpiecznym zalogowaniu.",
+      "hint": "Ekran logowania z integracją Supabase będzie dostępny wkrótce."
+    },
+    "signup": {
+      "description": "Załóż konto jako kupujący lub sprzedawca i dołącz do społeczności e-commerce.",
+      "hint": "Proces rejestracji z potwierdzeniem e-mail pojawi się niebawem."
+    },
+    "admin": {
+      "description": "Zarządzaj produktami, zamówieniami, zespołem i komunikacją z kupującymi w jednym miejscu.",
+      "hint": "Panel sprzedawcy z moderacją i realizacją zamówień pojawi się w kolejnej wersji."
+    },
+    "stores": {
+      "description": "Poznaj niezależne sklepy, ich kategorie oraz członków zespołu.",
+      "hint": "Indeks sklepów i filtry opublikujemy wraz z katalogiem produktów."
+    },
+    "legalPrivacy": {
+      "description": "Dowiedz się, w jaki sposób przetwarzamy dane osobowe zgodnie z RODO.",
+      "hint": "Pełna polityka prywatności zostanie dodana wraz z pakietem compliance."
+    },
+    "legalTerms": {
+      "description": "Zapoznaj się z regulaminem platformy, obowiązkami sprzedawców i prawami kupujących.",
+      "hint": "Ostateczne regulaminy opublikujemy po konsultacjach prawnych."
+    },
+    "legalReturns": {
+      "description": "Sprawdź zasady zwrotów i procedury reklamacyjne zgodne z prawem Unii Europejskiej.",
+      "hint": "Procedura zwrotów pojawi się razem z modułem zamówień i realizacji."
+    }
+  },
+  "footer": {
+    "rights": "Copyright e-commerce {year}. Wszelkie prawa zastrzeżone."
+  },
+  "localeSwitcher": {
+    "label": "Zmień język",
+    "polish": "Polski",
+    "english": "English"
+  }
+}

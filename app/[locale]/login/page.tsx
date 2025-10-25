@@ -13,7 +13,7 @@ export default async function LoginPage({ params }: LoginPageProps) {
     <PagePlaceholder
       title={dictionary.navigation.login}
       description={dictionary.placeholders.login.description}
-      hint="Supabase-authenticated login screen coming soon."
+      hint={dictionary.placeholders.login.hint}
     />
   );
 }

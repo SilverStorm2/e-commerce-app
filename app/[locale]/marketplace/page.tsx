@@ -13,7 +13,7 @@ export default async function MarketplacePage({ params }: MarketplacePageProps) 
     <PagePlaceholder
       title={dictionary.navigation.marketplace}
       description={dictionary.placeholders.marketplace.description}
-      hint="Marketplace catalog coming soon."
+      hint={dictionary.placeholders.marketplace.hint}
     />
   );
 }

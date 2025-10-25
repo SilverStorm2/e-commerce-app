@@ -13,7 +13,7 @@ export default async function TermsPage({ params }: TermsPageProps) {
     <PagePlaceholder
       title={dictionary.pageTitles.legalTerms}
       description={dictionary.placeholders.legalTerms.description}
-      hint="Terms of service draft coming during compliance milestone."
+      hint={dictionary.placeholders.legalTerms.hint}
     />
   );
 }

@@ -13,7 +13,7 @@ export default async function PrivacyPage({ params }: PrivacyPageProps) {
     <PagePlaceholder
       title={dictionary.pageTitles.legalPrivacy}
       description={dictionary.placeholders.legalPrivacy.description}
-      hint="Full privacy policy draft will land with compliance milestone."
+      hint={dictionary.placeholders.legalPrivacy.hint}
     />
   );
 }

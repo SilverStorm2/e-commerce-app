@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import { Inter, Playfair_Display as PlayfairDisplay } from "next/font/google";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
@@ -17,6 +17,19 @@ const playfair = PlayfairDisplay({
 export const metadata: Metadata = {
   title: "e-commerce Marketplace",
   description: "Community-centric multi-vendor marketplace for Polish and English shoppers.",
+  manifest: "/manifest.json",
+  icons: {
+    icon: "/icons/icon.svg",
+    shortcut: "/icons/icon.svg",
+    apple: "/icons/icon.svg",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0f172a",
+  colorScheme: "light",
+  width: "device-width",
+  initialScale: 1,
 };
 
 type RootLayoutProps = Readonly<{

@@ -13,7 +13,7 @@ export default async function StoresPage({ params }: StoresPageProps) {
     <PagePlaceholder
       title={dictionary.pageTitles.stores}
       description={dictionary.placeholders.stores.description}
-      hint="Storefront index and filters under construction."
+      hint={dictionary.placeholders.stores.hint}
     />
   );
 }

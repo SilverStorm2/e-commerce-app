@@ -14,13 +14,13 @@ export function MainFooter() {
         <p>{dictionary.footer.rights.replace("{year}", String(year))}</p>
         <div className="flex flex-wrap items-center gap-4">
           <Link href={`/${locale}/legal/privacy`} className="hover:text-foreground">
-            Privacy
+            {dictionary.pageTitles.legalPrivacy}
           </Link>
           <Link href={`/${locale}/legal/terms`} className="hover:text-foreground">
-            Terms
+            {dictionary.pageTitles.legalTerms}
           </Link>
           <Link href={`/${locale}/legal/returns`} className="hover:text-foreground">
-            Returns
+            {dictionary.pageTitles.legalReturns}
           </Link>
         </div>
       </div>

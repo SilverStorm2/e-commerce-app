@@ -23,7 +23,7 @@ export function HomeHero() {
               <a href={`/${locale}/marketplace`}>{dictionary.hero.cta}</a>
             </Button>
             <Button variant="ghost" size="lg" asChild>
-              <a href={`/${locale}/stories`}>Stories</a>
+              <a href={`/${locale}/stories`}>{dictionary.navigation.stories}</a>
             </Button>
           </div>
         </div>
@@ -31,22 +31,22 @@ export function HomeHero() {
           <div className="grid w-full gap-4 sm:grid-cols-2">
             <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
               <p className="text-sm font-medium text-muted-foreground">
-                PLN 420 • Handmade ceramics
+                PLN 420 - Handmade ceramics
               </p>
             </div>
             <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
               <p className="text-sm font-medium text-muted-foreground">
-                PLN 189 • Fair-trade fashion
+                PLN 189 - Fair-trade fashion
               </p>
             </div>
             <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
               <p className="text-sm font-medium text-muted-foreground">
-                PLN 349 • Smart home starter
+                PLN 349 - Smart home starter
               </p>
             </div>
             <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
               <p className="text-sm font-medium text-muted-foreground">
-                PLN 120 • Natural skincare duo
+                PLN 120 - Natural skincare duo
               </p>
             </div>
           </div>

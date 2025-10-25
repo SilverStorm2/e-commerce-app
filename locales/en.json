@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "title": "e-commerce - Community marketplace",
+    "description": "A community-first multi-vendor marketplace with independent storefronts, updates, and EU-compliant checkout."
+  },
+  "hero": {
+    "badge": "Community marketplace",
+    "title": "Discover independent sellers and shop together",
+    "subtitle": "One payment, sub-orders per seller, bilingual support, and compliant fulfilment tailored for Poland and the EU.",
+    "cta": "Start shopping"
+  },
+  "navigation": {
+    "marketplace": "Marketplace",
+    "stories": "Store updates",
+    "contractors": "Hire experts",
+    "login": "Sign in",
+    "signup": "Join now",
+    "admin": "Seller admin"
+  },
+  "pageTitles": {
+    "stores": "Stores",
+    "legalPrivacy": "Privacy policy",
+    "legalTerms": "Terms of service",
+    "legalReturns": "Returns & complaints"
+  },
+  "placeholders": {
+    "marketplace": {
+      "description": "Browse the curated catalog across sellers and filter by categories, price, and availability.",
+      "hint": "Marketplace catalog will launch alongside the product module."
+    },
+    "stories": {
+      "description": "Follow store updates and community highlights to stay in sync with new drops.",
+      "hint": "Store updates feed is coming soon."
+    },
+    "contractors": {
+      "description": "Discover specialists open to collaborations that help stores grow faster.",
+      "hint": "Contractor discovery tools are planned for the next iteration."
+    },
+    "login": {
+      "description": "Access orders, messages, and moderation tools after a secure sign-in flow.",
+      "hint": "Supabase-backed login screen will ship soon."
+    },
+    "signup": {
+      "description": "Register as a buyer or seller and become part of the e-commerce community.",
+      "hint": "Email-verified sign-up flow is coming shortly."
+    },
+    "admin": {
+      "description": "Manage catalog, orders, team members, and buyer conversations from one console.",
+      "hint": "Seller console with moderation and fulfilment ships in the next milestone."
+    },
+    "stores": {
+      "description": "Meet independent stores, their product lines, and the teams behind them.",
+      "hint": "Store index and filters will go live with the catalog release."
+    },
+    "legalPrivacy": {
+      "description": "Understand how we process personal data under GDPR and local regulations.",
+      "hint": "Full privacy policy draft lands with the compliance milestone."
+    },
+    "legalTerms": {
+      "description": "Review the platform terms, seller responsibilities, and buyer rights.",
+      "hint": "Finalised terms will ship after legal review."
+    },
+    "legalReturns": {
+      "description": "Learn about returns and complaint procedures aligned with EU directives.",
+      "hint": "Returns workflow will launch together with orders and fulfilment."
+    }
+  },
+  "footer": {
+    "rights": "Copyright e-commerce {year}. All rights reserved."
+  },
+  "localeSwitcher": {
+    "label": "Change language",
+    "polish": "Polski",
+    "english": "English"
+  }
+}
