@@ -1,4 +1,4 @@
-version: 1
+﻿version: 1
 
 milestones:
   - M0: Project skeleton & guardrails (repo, envs, CI skeleton)
@@ -47,7 +47,7 @@ tasks:
       - "ASSUMPTION: Use shadcn/ui generator to scaffold common components."
     est_complexity: S
 
-  - id: M0-CI-GUARDS
+  - id: M0-CI-GUARDS // completed
     title: Add lint, format, typecheck and basic CI workflow
     description: >
       Wire ESLint, Prettier, and TypeScript checks; create GitHub/Vercel CI workflow to run unit tests and lints on PRs.
@@ -76,7 +76,7 @@ tasks:
     rollback_plan: "Disable failing step and iterate off main."
     est_complexity: S
 
-  - id: M1-SUPABASE-BOOT
+  - id: M1-SUPABASE-BOOT //completed
     title: Bootstrap Supabase with extensions and base tenancy schema
     description: >
       Enable unaccent and pg_trgm extensions; create tenants, memberships, profiles tables with RLS deny-by-default.

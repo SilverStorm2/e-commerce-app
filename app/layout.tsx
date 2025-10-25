@@ -15,7 +15,7 @@ const playfair = PlayfairDisplay({
 });
 
 export const metadata: Metadata = {
-  title: "Stylowa Przygoda Marketplace",
+  title: "e-commerce Marketplace",
   description: "Community-centric multi-vendor marketplace for Polish and English shoppers.",
 };
 

@@ -1,6 +1,6 @@
 const dictionary = {
   meta: {
-    title: "Stylowa Przygoda – Community marketplace",
+    title: "e-commerce – Community marketplace",
     description:
       "A community-first multi-vendor marketplace with independent storefronts, conversations, and EU-compliant checkout.",
   },
@@ -39,8 +39,7 @@ const dictionary = {
       description: "Access orders, messages, and moderation tools after a secure sign-in flow.",
     },
     signup: {
-      description:
-        "Register as a buyer or seller and become part of the Stylowa Przygoda community.",
+      description: "Register as a buyer or seller and become part of the e-commerce community.",
     },
     stores: {
       description: "Meet independent stores, their product lines, and the teams behind them.",
@@ -56,7 +55,7 @@ const dictionary = {
     },
   },
   footer: {
-    rights: "© Stylowa Przygoda {year}. All rights reserved.",
+    rights: "© e-commerce {year}. All rights reserved.",
   },
   localeSwitcher: {
     label: "Change language",

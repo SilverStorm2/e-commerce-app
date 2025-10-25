@@ -23,7 +23,7 @@ export function MainHeader() {
           href={`/${locale}`}
           className="flex items-center gap-2 text-base font-semibold tracking-tight text-foreground"
         >
-          Stylowa&nbsp;Przygoda
+          e-commerce
         </Link>
         <div className="hidden items-center gap-6 md:flex">
           {NAV_LINKS.map((item) => (

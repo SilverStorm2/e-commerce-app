@@ -1,6 +1,6 @@
 const dictionary = {
   meta: {
-    title: "Stylowa Przygoda – Rynek wielosprzedawców",
+    title: "e-commerce – Rynek wielosprzedawców",
     description:
       "Społecznościowy marketplace z polskimi i europejskimi sprzedawcami, postami i rozmowami w czasie rzeczywistym.",
   },
@@ -42,8 +42,7 @@ const dictionary = {
         "Uzyskaj dostęp do panelu sprzedawcy, zamówień i wiadomości po bezpiecznym zalogowaniu.",
     },
     signup: {
-      description:
-        "Załóż konto jako kupujący lub sprzedawca i dołącz do społeczności Stylowej Przygody.",
+      description: "Załóż konto jako kupujący lub sprzedawca i dołącz do społeczności e-commerce.",
     },
     stores: {
       description: "Poznaj niezależne sklepy, ich kategorie oraz członków zespołu.",
@@ -61,7 +60,7 @@ const dictionary = {
     },
   },
   footer: {
-    rights: "© Stylowa Przygoda {year}. Wszelkie prawa zastrzeżone.",
+    rights: "© e-commerce {year}. Wszelkie prawa zastrzeżone.",
   },
   localeSwitcher: {
     label: "Zmień język",
