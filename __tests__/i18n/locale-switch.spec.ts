@@ -38,6 +38,29 @@ describe("Locale dictionaries", () => {
       expect(typeof enPlaceholder?.hint).toBe("string");
     }
   });
+
+  it("localise home feature highlights", () => {
+    expect(pl.home.features.heading).toBeTruthy();
+    expect(en.home.features.heading).toBeTruthy();
+    expect(pl.home.features.cards).toHaveLength(en.home.features.cards.length);
+
+    pl.home.features.cards.forEach((card, index) => {
+      const enCard = en.home.features.cards[index];
+      expect(typeof card.title).toBe("string");
+      expect(typeof card.description).toBe("string");
+      expect(typeof enCard.title).toBe("string");
+      expect(typeof enCard.description).toBe("string");
+    });
+  });
+
+  it("keeps hero product examples in sync", () => {
+    expect(pl.home.heroExamples.length).toBeGreaterThan(0);
+    expect(pl.home.heroExamples).toHaveLength(en.home.heroExamples.length);
+    pl.home.heroExamples.forEach((example, index) => {
+      expect(typeof example).toBe("string");
+      expect(typeof en.home.heroExamples[index]).toBe("string");
+    });
+  });
 });
 
 function expectSameStructure(reference: unknown, candidate: unknown, path: string[] = []) {

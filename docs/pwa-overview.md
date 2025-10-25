@@ -3,7 +3,7 @@
 ## Scope
 
 - `public/manifest.json` exposes the application name, theme colour, standalone display mode and `pl` default start URL. Two maskable SVG icons cover 192px+ and 512px+ install requirements.
-- `public/sw.js` pre-caches the locale home shells (`/`, `/pl`, `/en`) and manifest. Navigation requests are served network-first with an offline fallback to the cached Polish shell.
+- `public/sw.js` pre-caches the locale home shells (`/`, `/pl`, `/en`) and manifest. Navigation requests are served network-first with an offline fallback that prefers the cached request, then the matching locale shell before defaulting to `/pl` or `/`. Requests for `/_next/` assets are handled network-first to prevent stale bundles during development refreshes.
 - `components/pwa/service-worker-register.tsx` registers the worker on the client and refreshes it whenever the tab regains focus so cached assets stay fresh.
 
 ## Usage

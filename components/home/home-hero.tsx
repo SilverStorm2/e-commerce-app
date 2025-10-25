@@ -4,8 +4,16 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/components/layout/locale-provider";
 
+const DEFAULT_HERO_EXAMPLES = [
+  "PLN 420 – Handmade ceramics",
+  "PLN 189 – Fair-trade fashion",
+  "PLN 349 – Smart home starter",
+  "PLN 120 – Natural skincare duo",
+] as const;
+
 export function HomeHero() {
   const { dictionary, locale } = useLocale();
+  const heroExamples = dictionary.home?.heroExamples ?? DEFAULT_HERO_EXAMPLES;
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-background to-muted/60">
@@ -29,26 +37,14 @@ export function HomeHero() {
         </div>
         <div className="relative flex items-center justify-center">
           <div className="grid w-full gap-4 sm:grid-cols-2">
-            <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
-              <p className="text-sm font-medium text-muted-foreground">
-                PLN 420 - Handmade ceramics
-              </p>
-            </div>
-            <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
-              <p className="text-sm font-medium text-muted-foreground">
-                PLN 189 - Fair-trade fashion
-              </p>
-            </div>
-            <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
-              <p className="text-sm font-medium text-muted-foreground">
-                PLN 349 - Smart home starter
-              </p>
-            </div>
-            <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
-              <p className="text-sm font-medium text-muted-foreground">
-                PLN 120 - Natural skincare duo
-              </p>
-            </div>
+            {heroExamples.map((example, index) => (
+              <div
+                key={`hero-example-${index}`}
+                className="rounded-3xl border border-border bg-card p-6 shadow-sm"
+              >
+                <p className="text-sm font-medium text-muted-foreground">{example}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

@@ -9,6 +9,31 @@
     "subtitle": "Jedna płatność, zamówienia od wielu sprzedawców, dwujęzyczne wsparcie i bezpieczna realizacja zgodna z RODO.",
     "cta": "Zacznij zakupy"
   },
+  "home": {
+    "heroExamples": [
+      "PLN 420 – Ręcznie robiona ceramika",
+      "PLN 189 – Moda fair-trade",
+      "PLN 349 – Zestaw smart home",
+      "PLN 120 – Naturalna pielęgnacja"
+    ],
+    "features": {
+      "heading": "Stworzone dla nowoczesnych sprzedawców z Polski i Europy",
+      "cards": [
+        {
+          "title": "Zakupy u wielu sprzedawców",
+          "description": "Jedna płatność dzieli zamówienie na sprzedawców, gotowa na płatności w PLN i ręczne rozliczenia."
+        },
+        {
+          "title": "Społeczność w czasie rzeczywistym",
+          "description": "Wątki, wiadomości prywatne i aktualności sklepów angażują kupujących i zwiększają odpowiedzialność. W zestawie kolejka moderacji."
+        },
+        {
+          "title": "Zgodność na pierwszym miejscu",
+          "description": "Przepływy danych zgodne z RODO, ujawnienia Omnibus, limity żądań i dzienniki audytowe od pierwszego dnia."
+        }
+      ]
+    }
+  },
   "navigation": {
     "marketplace": "Marketplace",
     "stories": "Aktualności sklepów",

@@ -107,7 +107,7 @@ tasks:
     rollback_plan: "Drop migration in dev; restore from backup in staging."
     est_complexity: M
 
-  - id: M1-AUTH-SSR
+  - id: M1-AUTH-SSR // completed
     title: Integrate @supabase/ssr and SSR session middleware
     description: >
       Implement server-side auth with HttpOnly cookies using @supabase/ssr.

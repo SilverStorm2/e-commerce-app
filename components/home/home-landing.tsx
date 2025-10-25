@@ -1,20 +1,43 @@
 "use client";
 
+import { useLocale } from "@/components/layout/locale-provider";
 import { HomeHero } from "./home-hero";
 
+const DEFAULT_FEATURE_SECTION = {
+  heading: "Built for modern Polish and European sellers",
+  cards: [
+    {
+      title: "Multi-seller checkout",
+      description:
+        "Split orders per seller with a single pay-in, ready for PLN payments and manual reconciliation.",
+    },
+    {
+      title: "Realtime community",
+      description:
+        "Threads, DMs, and store updates keep buyers engaged and accountable. Moderation queue included.",
+    },
+    {
+      title: "Compliance-first",
+      description:
+        "GDPR-ready data flows, Omnibus disclosures, rate limiting, and audit trails from day zero.",
+    },
+  ],
+} as const;
+
 export function HomeLanding() {
+  const { dictionary } = useLocale();
+  const featureSection = dictionary.home?.features ?? DEFAULT_FEATURE_SECTION;
+
   return (
     <div className="flex flex-col gap-24">
       <HomeHero />
       <section className="bg-background">
         <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 pb-24 lg:px-6">
-          <h2 className="text-2xl font-semibold tracking-tight">
-            Built for modern Polish and European sellers
-          </h2>
+          <h2 className="text-2xl font-semibold tracking-tight">{featureSection.heading}</h2>
           <div className="grid gap-6 md:grid-cols-3">
-            {FEATURES.map((feature) => (
+            {featureSection.cards.map((feature, index) => (
               <div
-                key={feature.title}
+                key={`home-feature-${index}`}
                 className="rounded-2xl border border-border bg-card p-6 shadow-sm"
               >
                 <h3 className="text-lg font-semibold text-foreground">{feature.title}</h3>
@@ -27,21 +50,3 @@ export function HomeLanding() {
     </div>
   );
 }
-
-const FEATURES = [
-  {
-    title: "Multi-seller checkout",
-    description:
-      "Split orders per seller with a single pay-in, ready for PLN payments and manual reconciliation.",
-  },
-  {
-    title: "Realtime community",
-    description:
-      "Threads, DMs, and store updates keep buyers engaged and accountable. Moderation queue included.",
-  },
-  {
-    title: "Compliance-first",
-    description:
-      "GDPR-ready data flows, Omnibus disclosures, rate limiting, and audit trails from day zero.",
-  },
-];

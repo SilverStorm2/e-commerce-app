@@ -9,6 +9,31 @@
     "subtitle": "One payment, sub-orders per seller, bilingual support, and compliant fulfilment tailored for Poland and the EU.",
     "cta": "Start shopping"
   },
+  "home": {
+    "heroExamples": [
+      "PLN 420 – Handmade ceramics",
+      "PLN 189 – Fair-trade fashion",
+      "PLN 349 – Smart home starter",
+      "PLN 120 – Natural skincare duo"
+    ],
+    "features": {
+      "heading": "Built for modern Polish and European sellers",
+      "cards": [
+        {
+          "title": "Multi-seller checkout",
+          "description": "Split orders per seller with a single pay-in, ready for PLN payments and manual reconciliation."
+        },
+        {
+          "title": "Realtime community",
+          "description": "Threads, DMs, and store updates keep buyers engaged and accountable. Moderation queue included."
+        },
+        {
+          "title": "Compliance-first",
+          "description": "GDPR-ready data flows, Omnibus disclosures, rate limiting, and audit trails from day zero."
+        }
+      ]
+    }
+  },
   "navigation": {
     "marketplace": "Marketplace",
     "stories": "Store updates",
