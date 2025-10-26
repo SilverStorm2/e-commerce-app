@@ -36,10 +36,10 @@ tasks:
         And I see base layout and locale switcher
         And the build passes TypeScript checks
       checklist:
-        - [ ] App Router enabled with server components
-        - [ ] Tailwind v4 configured; shadcn/ui scaffolded
-        - [ ] Locale routing (pl, en) works
-        - [ ] Env vars loaded via Vercel project
+        - [x] App Router enabled with server components
+        - [x] Tailwind v4 configured; shadcn/ui scaffolded
+        - [x] Locale routing (pl, en) works
+        - [x] Env vars loaded via Vercel project
     dependencies: []
     risk: {level: Low, notes: "Mostly scaffolding; ensure Tailwind v4 config is compatible with shadcn/ui."}
     rollback_plan: "Revert to previous scaffold commit; remove conflicting config."
@@ -69,8 +69,8 @@ tasks:
         When CI runs
         Then lint, tests, and typecheck must pass
       checklist:
-        - [ ] CI workflow green for PRs
-        - [ ] Required checks enabled
+        - [x] CI workflow green for PRs
+        - [x] Required checks enabled
     dependencies: ["M0-REPO-SKEL"]
     risk: {level: Low, notes: "Standard CI wiring."}
     rollback_plan: "Disable failing step and iterate off main."
@@ -99,9 +99,9 @@ tasks:
         Then no rows are returned
         And a member sees only rows for their tenant
       checklist:
-        - [ ] Extensions enabled: unaccent, pg_trgm
-        - [ ] Tenants/memberships/profiles created
-        - [ ] Deny-by-default RLS applied
+        - [x] Extensions enabled: unaccent, pg_trgm
+        - [x] Tenants/memberships/profiles created
+        - [x] Deny-by-default RLS applied
     dependencies: ["M0-REPO-SKEL"]
     risk: {level: Med, notes: "RLS design must not leak rows."}
     rollback_plan: "Drop migration in dev; restore from backup in staging."
@@ -130,9 +130,9 @@ tasks:
         Then they are redirected to /pl/login
         And an authenticated user reaches admin successfully
       checklist:
-        - [ ] HttpOnly cookie set
-        - [ ] Middleware refresh works
-        - [ ] Protected routes gated
+        - [x] HttpOnly cookie set
+        - [x] Middleware refresh works
+        - [x] Protected routes gated
     dependencies: ["M1-SUPABASE-BOOT"]
     risk: {level: Med, notes: "SSR cookie boundaries & middleware matchers."}
     rollback_plan: "Disable matcher and fall back to client-side guard while investigating."
@@ -161,9 +161,9 @@ tasks:
         Then the app is installable as a PWA
         And language toggle switches UI to PL/EN consistently
       checklist:
-        - [ ] Manifest valid
-        - [ ] SW caches app shell
-        - [ ] Copy parity for PL/EN
+        - [x] Manifest valid
+        - [x] SW caches app shell
+        - [x] Copy parity for PL/EN
     dependencies: ["M0-REPO-SKEL"]
     risk: {level: Low, notes: "Ensure CSP allows SW; avoid over-caching."}
     rollback_plan: "Unregister SW and remove registration while fixing issues."
@@ -192,8 +192,8 @@ tasks:
         Then only is_published=true rows are returned
         And tenant staff can select drafts and update their own products
       checklist:
-        - [ ] GIN FTS columns planned
-        - [ ] Product CRUD via RLS tested
+        - [x] GIN FTS columns planned
+        - [x] Product CRUD via RLS tested
     dependencies: ["M1-SUPABASE-BOOT"]
     risk: {level: Med, notes: "Correct visibility policies for public vs drafts."}
     rollback_plan: "Revert migration; keep data snapshot for reapply."
@@ -224,14 +224,14 @@ tasks:
         Then the page renders name, price, images and store CTA
         And 'Follow store' is available for signed-in users
       checklist:
-        - [ ] Server-side data fetching with SSR auth where needed
-        - [ ] PL slugs normalized via unaccent rules
+        - [x] Server-side data fetching with SSR auth where needed
+        - [x] PL slugs normalized via unaccent rules
     dependencies: ["M2-DB-CATALOG"]
     risk: {level: Low, notes: "Careful with server/client component boundaries."}
     rollback_plan: "Gate features behind feature flags; serve static product page only."
     est_complexity: M
 
-  - id: M2-SEARCH-FTS
+  - id: M2-SEARCH-FTS // completed
     title: Product & contractor search with PL/EN FTS and trigram
     description: >
       Add searchable TSVECTORs for product names/descriptions and contractor skills/area with unaccent, plus pg_trgm for fuzzy.
@@ -253,14 +253,14 @@ tasks:
         When searching for a product or contractor
         Then relevant results rank top and return within indexed time
       checklist:
-        - [ ] GIN/GIST indexes present
-        - [ ] Weighted ranking implemented
+        - [x] GIN/GIST indexes present
+        - [x] Weighted ranking implemented
     dependencies: ["M2-DB-CATALOG"]
     risk: {level: Med, notes: "Index bloat and ranking tuning for PL."}
     rollback_plan: "Disable trigram from ORDER BY to reduce load; keep FTS only."
     est_complexity: M
 
-  - id: M2-CONTRACTOR-DIR
+  - id: M2-CONTRACTOR-DIR // completed
     title: Contractor profiles and directory
     description: >
       Implement contractor_profiles with public directory, PL/EN search by skills and service area.
@@ -282,8 +282,8 @@ tasks:
         When a guest opens the directory
         Then profiles are visible and queryable by skill or region
       checklist:
-        - [ ] Public select policy for directory
-        - [ ] Profile self-edit guarded by user_id
+        - [x] Public select policy for directory
+        - [x] Profile self-edit guarded by user_id
     dependencies: ["M1-SUPABASE-BOOT", "M2-SEARCH-FTS"]
     risk: {level: Low, notes: "Public data only; avoid PII beyond profile fields."}
     rollback_plan: "Hide directory route; keep table for later."

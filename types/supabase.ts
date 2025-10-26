@@ -8,6 +8,70 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type Database = {
   public: {
     Tables: {
+      carts: {
+        Row: {
+          created_at: string;
+          currency_code: string;
+          id: string;
+          metadata: Json;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          currency_code?: string;
+          id?: string;
+          metadata?: Json;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          currency_code?: string;
+          id?: string;
+          metadata?: Json;
+          updated_at?: string;
+          user_id?: string;
+        };
+      };
+      cart_items: {
+        Row: {
+          added_at: string;
+          cart_id: string;
+          currency_code: string;
+          id: string;
+          metadata: Json;
+          product_id: string;
+          quantity: number;
+          tenant_id: string;
+          unit_price: string;
+          updated_at: string;
+        };
+        Insert: {
+          added_at?: string;
+          cart_id: string;
+          currency_code?: string;
+          id?: string;
+          metadata?: Json;
+          product_id: string;
+          quantity: number;
+          tenant_id?: string;
+          unit_price?: string | number;
+          updated_at?: string;
+        };
+        Update: {
+          added_at?: string;
+          cart_id?: string;
+          currency_code?: string;
+          id?: string;
+          metadata?: Json;
+          product_id?: string;
+          quantity?: number;
+          tenant_id?: string;
+          unit_price?: string | number;
+          updated_at?: string;
+        };
+      };
       memberships: {
         Row: {
           created_at: string;
