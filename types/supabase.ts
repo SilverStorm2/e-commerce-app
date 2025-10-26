@@ -72,6 +72,228 @@ export type Database = {
           updated_at?: string;
         };
       };
+      order_groups: {
+        Row: {
+          billing_address: Json;
+          buyer_email: string | null;
+          buyer_full_name: string | null;
+          buyer_user_id: string;
+          cancelled_at: string | null;
+          cart_snapshot: Json;
+          contact_phone: string | null;
+          created_at: string;
+          currency_code: string;
+          discount_amount: string;
+          id: string;
+          items_count: number;
+          items_subtotal_amount: string;
+          items_tax_amount: string;
+          metadata: Json;
+          notes: Json;
+          paid_at: string | null;
+          placed_at: string | null;
+          seller_count: number;
+          shipping_address: Json;
+          shipping_amount: string;
+          status: Database["public"]["Enums"]["order_group_status"];
+          total_amount: string;
+          updated_at: string;
+        };
+        Insert: {
+          billing_address?: Json;
+          buyer_email?: string | null;
+          buyer_full_name?: string | null;
+          buyer_user_id: string;
+          cancelled_at?: string | null;
+          cart_snapshot?: Json;
+          contact_phone?: string | null;
+          created_at?: string;
+          currency_code?: string;
+          discount_amount?: string | number;
+          id?: string;
+          items_count?: number;
+          items_subtotal_amount?: string | number;
+          items_tax_amount?: string | number;
+          metadata?: Json;
+          notes?: Json;
+          paid_at?: string | null;
+          placed_at?: string | null;
+          seller_count?: number;
+          shipping_address?: Json;
+          shipping_amount?: string | number;
+          status?: Database["public"]["Enums"]["order_group_status"];
+          total_amount?: string | number;
+          updated_at?: string;
+        };
+        Update: {
+          billing_address?: Json;
+          buyer_email?: string | null;
+          buyer_full_name?: string | null;
+          buyer_user_id?: string;
+          cancelled_at?: string | null;
+          cart_snapshot?: Json;
+          contact_phone?: string | null;
+          created_at?: string;
+          currency_code?: string;
+          discount_amount?: string | number;
+          id?: string;
+          items_count?: number;
+          items_subtotal_amount?: string | number;
+          items_tax_amount?: string | number;
+          metadata?: Json;
+          notes?: Json;
+          paid_at?: string | null;
+          placed_at?: string | null;
+          seller_count?: number;
+          shipping_address?: Json;
+          shipping_amount?: string | number;
+          status?: Database["public"]["Enums"]["order_group_status"];
+          total_amount?: string | number;
+          updated_at?: string;
+        };
+      };
+      orders: {
+        Row: {
+          billing_address: Json;
+          buyer_email: string | null;
+          buyer_full_name: string | null;
+          buyer_note: string | null;
+          buyer_user_id: string;
+          cancelled_at: string | null;
+          created_at: string;
+          currency_code: string;
+          discount_amount: string;
+          fulfilled_at: string | null;
+          id: string;
+          items_count: number;
+          items_subtotal_amount: string;
+          items_tax_amount: string;
+          metadata: Json;
+          order_group_id: string;
+          paid_at: string | null;
+          placed_at: string | null;
+          seller_note: string | null;
+          shipping_address: Json;
+          shipping_amount: string;
+          status: Database["public"]["Enums"]["order_status"];
+          tenant_id: string;
+          total_amount: string;
+          updated_at: string;
+        };
+        Insert: {
+          billing_address?: Json;
+          buyer_email?: string | null;
+          buyer_full_name?: string | null;
+          buyer_note?: string | null;
+          buyer_user_id?: string;
+          cancelled_at?: string | null;
+          created_at?: string;
+          currency_code?: string;
+          discount_amount?: string | number;
+          fulfilled_at?: string | null;
+          id?: string;
+          items_count?: number;
+          items_subtotal_amount?: string | number;
+          items_tax_amount?: string | number;
+          metadata?: Json;
+          order_group_id: string;
+          paid_at?: string | null;
+          placed_at?: string | null;
+          seller_note?: string | null;
+          shipping_address?: Json;
+          shipping_amount?: string | number;
+          status?: Database["public"]["Enums"]["order_status"];
+          tenant_id: string;
+          total_amount?: string | number;
+          updated_at?: string;
+        };
+        Update: {
+          billing_address?: Json;
+          buyer_email?: string | null;
+          buyer_full_name?: string | null;
+          buyer_note?: string | null;
+          buyer_user_id?: string;
+          cancelled_at?: string | null;
+          created_at?: string;
+          currency_code?: string;
+          discount_amount?: string | number;
+          fulfilled_at?: string | null;
+          id?: string;
+          items_count?: number;
+          items_subtotal_amount?: string | number;
+          items_tax_amount?: string | number;
+          metadata?: Json;
+          order_group_id?: string;
+          paid_at?: string | null;
+          placed_at?: string | null;
+          seller_note?: string | null;
+          shipping_address?: Json;
+          shipping_amount?: string | number;
+          status?: Database["public"]["Enums"]["order_status"];
+          tenant_id?: string;
+          total_amount?: string | number;
+          updated_at?: string;
+        };
+      };
+      order_items: {
+        Row: {
+          created_at: string;
+          currency_code: string;
+          id: string;
+          metadata: Json;
+          order_id: string;
+          product_id: string | null;
+          product_name: string;
+          product_slug: string | null;
+          product_sku: string | null;
+          quantity: number;
+          subtotal_amount: string;
+          tax_amount: string;
+          tenant_id: string;
+          total_amount: string;
+          unit_price: string;
+          updated_at: string;
+          vat_rate: string;
+        };
+        Insert: {
+          created_at?: string;
+          currency_code?: string;
+          id?: string;
+          metadata?: Json;
+          order_id: string;
+          product_id?: string | null;
+          product_name?: string;
+          product_slug?: string | null;
+          product_sku?: string | null;
+          quantity: number;
+          subtotal_amount?: string | number;
+          tax_amount?: string | number;
+          tenant_id?: string;
+          total_amount?: string | number;
+          unit_price?: string | number;
+          updated_at?: string;
+          vat_rate?: string | number;
+        };
+        Update: {
+          created_at?: string;
+          currency_code?: string;
+          id?: string;
+          metadata?: Json;
+          order_id?: string;
+          product_id?: string | null;
+          product_name?: string;
+          product_slug?: string | null;
+          product_sku?: string | null;
+          quantity?: number;
+          subtotal_amount?: string | number;
+          tax_amount?: string | number;
+          tenant_id?: string;
+          total_amount?: string | number;
+          unit_price?: string | number;
+          updated_at?: string;
+          vat_rate?: string | number;
+        };
+      };
       memberships: {
         Row: {
           created_at: string;
@@ -534,6 +756,16 @@ export type Database = {
       membership_role: "owner" | "manager" | "staff" | "contractor";
       membership_status: "active" | "invited" | "suspended";
       product_status: "draft" | "active" | "archived";
+      order_group_status: "pending" | "awaiting_payment" | "paid" | "cancelled" | "refunded";
+      order_status:
+        | "pending"
+        | "awaiting_payment"
+        | "paid"
+        | "fulfilled"
+        | "shipped"
+        | "delivered"
+        | "cancelled"
+        | "refunded";
     };
     CompositeTypes: Record<string, never>;
   };

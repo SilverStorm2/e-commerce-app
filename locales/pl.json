@@ -90,6 +90,22 @@
       "hint": "Procedura zwrotów pojawi się razem z modułem zamówień i realizacji."
     }
   },
+  "checkout": {
+    "success": {
+      "title": "Dziękujemy za zamówienie",
+      "description": "Stripe potwierdził płatność. Przygotowujemy podzamówienia dla każdego sprzedawcy.",
+      "nextSteps": "Wyślemy e-mail z potwierdzeniem oraz będziemy informować o statusie wysyłki.",
+      "referenceLabel": "Numer zamówienia",
+      "cta": "Wróć na marketplace"
+    },
+    "cancel": {
+      "title": "Płatność nie została ukończona",
+      "description": "Sesja Stripe została przerwana. Twoje produkty nadal czekają w koszyku.",
+      "nextSteps": "Możesz wrócić do kasy w dowolnym momencie. Jeśli pojawiło się obciążenie, skontaktuj się z nami.",
+      "referenceLabel": "Numer referencyjny (jeśli został utworzony)",
+      "cta": "Wróć do marketplace"
+    }
+  },
   "footer": {
     "rights": "Copyright e-commerce {year}. Wszelkie prawa zastrzeżone."
   },

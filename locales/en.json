@@ -90,6 +90,22 @@
       "hint": "Returns workflow will launch together with orders and fulfilment."
     }
   },
+  "checkout": {
+    "success": {
+      "title": "Thank you for your order",
+      "description": "Stripe confirmed your payment. Sub-orders for each seller are now being prepared.",
+      "nextSteps": "We sent a confirmation email with the order reference and we'll notify you about shipping updates.",
+      "referenceLabel": "Order reference",
+      "cta": "Continue shopping"
+    },
+    "cancel": {
+      "title": "Checkout not completed",
+      "description": "The Stripe session was closed before payment. Your cart is still saved.",
+      "nextSteps": "You can resume checkout whenever you're ready. Contact support if you were charged.",
+      "referenceLabel": "Order reference (if already created)",
+      "cta": "Return to marketplace"
+    }
+  },
   "contractors": {
     "directory": {
       "title": "Find trusted contractors",
