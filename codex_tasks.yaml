@@ -289,7 +289,7 @@ tasks:
     rollback_plan: "Hide directory route; keep table for later."
     est_complexity: S
 
-  - id: M3-DB-CART
+  - id: M3-DB-CART // completed
     title: Carts and cart_items with RLS
     description: >
       Implement carts and cart_items with user-owned RLS policies; guests use local storage.
@@ -311,8 +311,8 @@ tasks:
         When adding/removing items
         Then only their cart is affected and readable
       checklist:
-        - [ ] Guest cart merge works
-        - [ ] Deny cross-user access
+        - [x] Guest cart merge works
+        - [x] Deny cross-user access
     dependencies: ["M2-DB-CATALOG"]
     risk: {level: Low, notes: "RLS straightforward; merge edge cases."}
     rollback_plan: "Disable merge and prompt user to rebuild cart."
