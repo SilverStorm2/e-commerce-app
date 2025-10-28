@@ -175,8 +175,11 @@ export type Database = {
           seller_note: string | null;
           shipping_address: Json;
           shipping_amount: string;
+          shipping_method: string | null;
           status: Database["public"]["Enums"]["order_status"];
           tenant_id: string;
+          tracking_number: string | null;
+          tracking_url: string | null;
           total_amount: string;
           updated_at: string;
         };
@@ -202,8 +205,11 @@ export type Database = {
           seller_note?: string | null;
           shipping_address?: Json;
           shipping_amount?: string | number;
+          shipping_method?: string | null;
           status?: Database["public"]["Enums"]["order_status"];
           tenant_id: string;
+          tracking_number?: string | null;
+          tracking_url?: string | null;
           total_amount?: string | number;
           updated_at?: string;
         };
@@ -229,8 +235,11 @@ export type Database = {
           seller_note?: string | null;
           shipping_address?: Json;
           shipping_amount?: string | number;
+          shipping_method?: string | null;
           status?: Database["public"]["Enums"]["order_status"];
           tenant_id?: string;
+          tracking_number?: string | null;
+          tracking_url?: string | null;
           total_amount?: string | number;
           updated_at?: string;
         };

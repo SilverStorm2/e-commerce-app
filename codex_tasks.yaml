@@ -380,7 +380,7 @@ tasks:
     rollback_plan: "Disable multi-seller grouping; process single-seller session only."
     est_complexity: M
 
-  - id: M3-WEBHOOKS-STRIPE
+  - id: M3-WEBHOOKS-STRIPE // completed
     title: Webhook verification and payment reconciliation
     description: >
       Implement /api/stripe/webhook with raw body handling and signature verification.
@@ -403,14 +403,14 @@ tasks:
         Then the order_group is marked paid and orders transition to paid
         And the handler is idempotent
       checklist:
-        - [ ] Signature verified
-        - [ ] Duplicate events ignored
+        - [x] Signature verified
+        - [x] Duplicate events ignored
     dependencies: ["M3-CHECKOUT-STRIPE"]
     risk: {level: High, notes: "Raw body parsing & secrets; idempotency."}
     rollback_plan: "Temporarily poll session status client-side while fixing webhook."
     est_complexity: M
 
-  - id: M3-SHIPPING
+  - id: M3-SHIPPING // completed
     title: Manual shipping & tracking URL generator
     description: >
       Add shipping fields to orders and a small helper that maps known carriers to tracking URLs.
