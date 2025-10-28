@@ -1,4 +1,8 @@
-const requiredServerEnv = ["STRIPE_SECRET_KEY"] as const;
+const requiredServerEnv = [
+  "STRIPE_SECRET_KEY",
+  "STRIPE_WEBHOOK_SECRET",
+  "SUPABASE_SERVICE_ROLE_KEY",
+] as const;
 
 type ServerEnvKey = (typeof requiredServerEnv)[number];
 

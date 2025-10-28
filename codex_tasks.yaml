@@ -350,7 +350,7 @@ tasks:
       - "ASSUMPTION: Platform acts as aggregator; payouts deferred."
     est_complexity: M
 
-  - id: M3-CHECKOUT-STRIPE 
+  - id: M3-CHECKOUT-STRIPE // completed
     title: Stripe Checkout session and success/cancel routes
     description: >
       Create /api/checkout/session to build a Stripe Checkout session from the order_group/cart.
@@ -373,8 +373,8 @@ tasks:
         Then user is redirected to Stripe Checkout in PLN
         And returns to success page on completion
       checklist:
-        - [ ] Metadata includes order_group id
-        - [ ] Amount equals cart+shipping
+        - [x] Metadata includes order_group id
+        - [x] Amount equals cart+shipping
     dependencies: ["M3-DB-ORDERS"]
     risk: {level: Med, notes: "Session values must match order totals."}
     rollback_plan: "Disable multi-seller grouping; process single-seller session only."
