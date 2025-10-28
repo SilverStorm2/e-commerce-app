@@ -692,6 +692,149 @@ export type Database = {
           user_id?: string;
         };
       };
+      follows: {
+        Row: {
+          created_at: string;
+          follower_user_id: string;
+          id: string;
+          is_notifications_enabled: boolean;
+          metadata: Json;
+          tenant_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          follower_user_id: string;
+          id?: string;
+          is_notifications_enabled?: boolean;
+          metadata?: Json;
+          tenant_id: string;
+        };
+        Update: {
+          created_at?: string;
+          follower_user_id?: string;
+          id?: string;
+          is_notifications_enabled?: boolean;
+          metadata?: Json;
+          tenant_id?: string;
+        };
+      };
+      posts: {
+        Row: {
+          author_user_id: string;
+          content: string;
+          created_at: string;
+          excerpt: string | null;
+          id: string;
+          is_pinned: boolean;
+          metadata: Json;
+          published_at: string | null;
+          slug: string | null;
+          status: Database["public"]["Enums"]["post_status"];
+          tenant_id: string;
+          title: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          author_user_id: string;
+          content: string;
+          created_at?: string;
+          excerpt?: string | null;
+          id?: string;
+          is_pinned?: boolean;
+          metadata?: Json;
+          published_at?: string | null;
+          slug?: string | null;
+          status?: Database["public"]["Enums"]["post_status"];
+          tenant_id: string;
+          title?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          author_user_id?: string;
+          content?: string;
+          created_at?: string;
+          excerpt?: string | null;
+          id?: string;
+          is_pinned?: boolean;
+          metadata?: Json;
+          published_at?: string | null;
+          slug?: string | null;
+          status?: Database["public"]["Enums"]["post_status"];
+          tenant_id?: string;
+          title?: string | null;
+          updated_at?: string;
+        };
+      };
+      comments: {
+        Row: {
+          author_user_id: string;
+          body: string;
+          created_at: string;
+          id: string;
+          last_edited_at: string | null;
+          metadata: Json;
+          parent_comment_id: string | null;
+          post_id: string;
+          status: Database["public"]["Enums"]["comment_status"];
+          tenant_id: string;
+          updated_at: string;
+        };
+        Insert: {
+          author_user_id: string;
+          body: string;
+          created_at?: string;
+          id?: string;
+          last_edited_at?: string | null;
+          metadata?: Json;
+          parent_comment_id?: string | null;
+          post_id: string;
+          status?: Database["public"]["Enums"]["comment_status"];
+          tenant_id?: string;
+          updated_at?: string;
+        };
+        Update: {
+          author_user_id?: string;
+          body?: string;
+          created_at?: string;
+          id?: string;
+          last_edited_at?: string | null;
+          metadata?: Json;
+          parent_comment_id?: string | null;
+          post_id?: string;
+          status?: Database["public"]["Enums"]["comment_status"];
+          tenant_id?: string;
+          updated_at?: string;
+        };
+      };
+      reactions: {
+        Row: {
+          comment_id: string | null;
+          created_at: string;
+          id: string;
+          post_id: string | null;
+          reaction: Database["public"]["Enums"]["reaction_type"];
+          tenant_id: string;
+          user_id: string;
+        };
+        Insert: {
+          comment_id?: string | null;
+          created_at?: string;
+          id?: string;
+          post_id?: string | null;
+          reaction?: Database["public"]["Enums"]["reaction_type"];
+          tenant_id?: string;
+          user_id: string;
+        };
+        Update: {
+          comment_id?: string | null;
+          created_at?: string;
+          id?: string;
+          post_id?: string | null;
+          reaction?: Database["public"]["Enums"]["reaction_type"];
+          tenant_id?: string;
+          user_id?: string;
+        };
+      };
       tenants: {
         Row: {
           country_code: string;
@@ -765,6 +908,9 @@ export type Database = {
       membership_role: "owner" | "manager" | "staff" | "contractor";
       membership_status: "active" | "invited" | "suspended";
       product_status: "draft" | "active" | "archived";
+      post_status: "draft" | "published" | "archived";
+      comment_status: "visible" | "hidden" | "removed";
+      reaction_type: "like" | "love" | "insightful" | "support" | "celebrate";
       order_group_status: "pending" | "awaiting_payment" | "paid" | "cancelled" | "refunded";
       order_status:
         | "pending"

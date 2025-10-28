@@ -432,14 +432,14 @@ tasks:
         When seller enters tracking number and carrier
         Then order status becomes 'shipped' and buyer sees a working tracking link
       checklist:
-        - [ ] Supported carriers include InPost, DPD, DHL
-        - [ ] Email/notification sent on ship
+        - [x] Supported carriers include InPost, DPD, DHL
+        - [x] Email/notification sent on ship
     dependencies: ["M3-DB-ORDERS"]
     risk: {level: Low, notes: "Static mapping; no external API."}
     rollback_plan: "Allow free-form tracking URL and store only the link."
     est_complexity: S
 
-  - id: M4-DB-SOCIAL
+  - id: M4-DB-SOCIAL // completed
     title: Posts, comments, reactions, follows with RLS
     description: >
       Create social tables with RLS: posts public, comments by any authenticated user, store staff moderation.
@@ -462,8 +462,8 @@ tasks:
         Then comment is visible publicly
         And store owner/manager can remove comments
       checklist:
-        - [ ] Public read for posts/comments
-        - [ ] Staff moderation allowed
+        - [x] Public read for posts/comments
+        - [x] Staff moderation allowed
     dependencies: ["M1-SUPABASE-BOOT"]
     risk: {level: Med, notes: "Ensure moderation without over-deletion."}
     rollback_plan: "Gate comments behind 'followers only' temporarily."
