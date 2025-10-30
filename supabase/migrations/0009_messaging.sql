@@ -112,6 +112,7 @@ set search_path = public
 as $$
 declare
   thread_row public.threads%rowtype;
+  reply_thread_id uuid;
 begin
   select *
     into thread_row
@@ -132,6 +133,19 @@ begin
     new.tenant_id := thread_row.tenant_id;
   elsif thread_row.tenant_id is not null and new.tenant_id <> thread_row.tenant_id then
     raise exception 'Message tenant mismatch for thread %', new.thread_id;
+  end if;
+
+  if new.reply_to_message_id is not null then
+    select m.thread_id
+      into reply_thread_id
+    from public.messages m
+    where m.id = new.reply_to_message_id;
+
+    if reply_thread_id is null then
+      raise exception 'Reply target % not found', new.reply_to_message_id;
+    elsif reply_thread_id <> new.thread_id then
+      raise exception 'Reply must reference a message within the same thread';
+    end if;
   end if;
 
   return new;
@@ -404,7 +418,7 @@ with check (
       tenant_id is not null
       and app_hidden.is_tenant_member(
         tenant_id,
-        array['owner', 'manager', 'staff']::public.membership_role[]
+        array['owner', 'manager', 'staff', 'contractor']::public.membership_role[]
       )
     )
     or app_hidden.is_platform_admin()
@@ -420,7 +434,7 @@ using (
     tenant_id is not null
     and app_hidden.is_tenant_member(
       tenant_id,
-      array['owner', 'manager', 'staff']::public.membership_role[]
+      array['owner', 'manager', 'staff', 'contractor']::public.membership_role[]
     )
   )
 )
@@ -431,7 +445,7 @@ with check (
     tenant_id is not null
     and app_hidden.is_tenant_member(
       tenant_id,
-      array['owner', 'manager', 'staff']::public.membership_role[]
+      array['owner', 'manager', 'staff', 'contractor']::public.membership_role[]
     )
   )
 );
@@ -445,7 +459,7 @@ using (
     tenant_id is not null
     and app_hidden.is_tenant_member(
       tenant_id,
-      array['owner', 'manager', 'staff']::public.membership_role[]
+      array['owner', 'manager', 'staff', 'contractor']::public.membership_role[]
     )
   )
 );
