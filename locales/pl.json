@@ -114,6 +114,45 @@
     "polish": "Polski",
     "english": "English"
   },
+  "messages": {
+    "header": {
+      "fallbackTitle": "Rozmowa",
+      "subtitle": "Rozmawiasz z {names}"
+    },
+    "presence": {
+      "online": "Dostępni teraz",
+      "offline": "Obecnie offline",
+      "you": "Ty",
+      "unknown": "Uczestnik"
+    },
+    "composer": {
+      "placeholder": "Napisz wiadomość...",
+      "attach": "Dołącz plik",
+      "attachFallback": "Dołącz plik",
+      "attachmentFallback": "(załącznik)",
+      "sending": "Wysyłanie",
+      "send": "Wyślij",
+      "sendError": "Nie udało się wysłać wiadomości. Spróbuj ponownie."
+    },
+    "message": {
+      "edited": "edytowano",
+      "deleted": "Wiadomość usunięta przez nadawcę.",
+      "download": "Pobierz",
+      "attachmentError": "Załącznik jest chwilowo niedostępny."
+    },
+    "typingIndicator": {
+      "single": "{name} pisze...",
+      "multiple": "{count} osób pisze..."
+    },
+    "readReceipt": {
+      "notSeen": "Nikt jeszcze nie przeczytał",
+      "seenBy": "Przeczytane przez {names}"
+    },
+    "empty": {
+      "title": "Brak wiadomości",
+      "description": "Rozpocznij rozmowę, aby zacząć współpracę."
+    }
+  },
   "storefront": {
     "metaTitleSuffix": "Sklep marketplace",
     "metaDescriptionFallback": "Przeglądaj produkty tego niezależnego sklepu na naszym społecznościowym rynku.",

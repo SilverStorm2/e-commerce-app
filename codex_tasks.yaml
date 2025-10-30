@@ -469,7 +469,7 @@ tasks:
     rollback_plan: "Gate comments behind 'followers only' temporarily."
     est_complexity: M
 
-  - id: M4-DB-MSG
+  - id: M4-DB-MSG // completed
     title: Threads, participants, messages with participant/tenant RLS
     description: >
       Implement DM threads with participants table; messages readable by participants and tenant staff (support model).
@@ -491,14 +491,14 @@ tasks:
         When a staff member not originally in the thread opens it
         Then they can read/reply due to tenant support policy
       checklist:
-        - [ ] Participant or tenant-staff access
-        - [ ] Read receipts stored
+        - [x] Participant or tenant-staff access
+        - [x] Read receipts stored
     dependencies: ["M1-AUTH-SSR"]
     risk: {level: Med, notes: "Avoid over-exposing messages across tenants."}
     rollback_plan: "Restrict to explicit participants only while revising policy."
     est_complexity: M
 
-  - id: M4-REALTIME-UI
+  - id: M4-REALTIME-UI // completed
     title: Realtime chat UI with presence, typing and read receipts
     description: >
       Build chat UI that subscribes to messages on open, shows presence and typing via Broadcast,

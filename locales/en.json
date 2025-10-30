@@ -187,6 +187,45 @@
     "polish": "Polski",
     "english": "English"
   },
+  "messages": {
+    "header": {
+      "fallbackTitle": "Conversation",
+      "subtitle": "Chatting with {names}"
+    },
+    "presence": {
+      "online": "Online now",
+      "offline": "Currently offline",
+      "you": "You",
+      "unknown": "Participant"
+    },
+    "composer": {
+      "placeholder": "Write a message...",
+      "attach": "Attach file",
+      "attachFallback": "Attach file",
+      "attachmentFallback": "(attachment)",
+      "sending": "Sending",
+      "send": "Send",
+      "sendError": "We could not send this message. Please try again."
+    },
+    "message": {
+      "edited": "edited",
+      "deleted": "Message removed by sender.",
+      "download": "Download",
+      "attachmentError": "Attachment is not available right now."
+    },
+    "typingIndicator": {
+      "single": "{name} is typing...",
+      "multiple": "{count} people are typing..."
+    },
+    "readReceipt": {
+      "notSeen": "Not yet read",
+      "seenBy": "Seen by {names}"
+    },
+    "empty": {
+      "title": "No messages yet",
+      "description": "Start the conversation to get things moving."
+    }
+  },
   "storefront": {
     "metaTitleSuffix": "Marketplace Store",
     "metaDescriptionFallback": "Browse products from this independent store on our community marketplace.",

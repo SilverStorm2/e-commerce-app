@@ -642,11 +642,11 @@ export function ChatThread(props: ChatThreadProps) {
     }
 
     if (typingUserIds.length === 1) {
-      const template = props.dictionary.typingIndicator?.single ?? "{name} is typing…";
+      const template = props.dictionary.typingIndicator?.single ?? "{name} is typing...";
       return formatTemplate(template, { name: resolveName(typingUserIds[0]) });
     }
 
-    const template = props.dictionary.typingIndicator?.multiple ?? "{count} people are typing…";
+    const template = props.dictionary.typingIndicator?.multiple ?? "{count} people are typing...";
     return formatTemplate(template, { count: typingUserIds.length });
   }, [
     props.dictionary.typingIndicator?.multiple,
@@ -770,7 +770,7 @@ export function ChatThread(props: ChatThreadProps) {
                 value={composerValue}
                 onChange={handleComposerChange}
                 onBlur={handleComposerBlur}
-                placeholder={props.dictionary.composer?.placeholder ?? "Write a message…"}
+                placeholder={props.dictionary.composer?.placeholder ?? "Write a message..."}
                 rows={selectedFile ? 4 : 3}
                 className="w-full resize-none bg-transparent text-sm outline-none"
               />
@@ -889,7 +889,7 @@ function MessageBubble({
               <div>
                 <p className="font-medium">{attachment.fileName}</p>
                 <p className="text-xs text-muted-foreground">
-                  {formatFileSize(attachment.size)} · {attachment.contentType}
+                  {formatFileSize(attachment.size)} - {attachment.contentType}
                 </p>
               </div>
             </div>
