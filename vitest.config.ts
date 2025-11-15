@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "."),
+      "web-push": path.resolve(__dirname, "tests/stubs/web-push.ts"),
     },
   },
   css: {

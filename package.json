@@ -28,7 +28,8 @@
     "react-dom": "18.2.0",
     "stripe": "^14.22.0",
     "tailwind-merge": "^2.2.2",
-    "tailwindcss": "4.0.0-alpha.15"
+    "tailwindcss": "4.0.0-alpha.15",
+    "web-push": "^3.5.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.16",

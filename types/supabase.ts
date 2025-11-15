@@ -34,6 +34,56 @@ export type Database = {
           user_id?: string;
         };
       };
+      notifications: {
+        Row: {
+          action_url: string | null;
+          actor_user_id: string | null;
+          body: string;
+          created_at: string;
+          delivered_at: string | null;
+          event_type: Database["public"]["Enums"]["notification_event"];
+          id: string;
+          metadata: Json;
+          read_at: string | null;
+          recipient_user_id: string;
+          status: Database["public"]["Enums"]["notification_status"];
+          tenant_id: string | null;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          action_url?: string | null;
+          actor_user_id?: string | null;
+          body: string;
+          created_at?: string;
+          delivered_at?: string | null;
+          event_type: Database["public"]["Enums"]["notification_event"];
+          id?: string;
+          metadata?: Json;
+          read_at?: string | null;
+          recipient_user_id: string;
+          status?: Database["public"]["Enums"]["notification_status"];
+          tenant_id?: string | null;
+          title: string;
+          updated_at?: string;
+        };
+        Update: {
+          action_url?: string | null;
+          actor_user_id?: string | null;
+          body?: string;
+          created_at?: string;
+          delivered_at?: string | null;
+          event_type?: Database["public"]["Enums"]["notification_event"];
+          id?: string;
+          metadata?: Json;
+          read_at?: string | null;
+          recipient_user_id?: string;
+          status?: Database["public"]["Enums"]["notification_status"];
+          tenant_id?: string | null;
+          title?: string;
+          updated_at?: string;
+        };
+      };
       cart_items: {
         Row: {
           added_at: string;
@@ -70,6 +120,41 @@ export type Database = {
           tenant_id?: string;
           unit_price?: string | number;
           updated_at?: string;
+        };
+      };
+      push_subscriptions: {
+        Row: {
+          auth_key: string;
+          created_at: string;
+          endpoint: string;
+          expiration_time: string | null;
+          id: string;
+          p256dh_key: string;
+          updated_at: string;
+          user_agent: string | null;
+          user_id: string;
+        };
+        Insert: {
+          auth_key: string;
+          created_at?: string;
+          endpoint: string;
+          expiration_time?: string | null;
+          id?: string;
+          p256dh_key: string;
+          updated_at?: string;
+          user_agent?: string | null;
+          user_id: string;
+        };
+        Update: {
+          auth_key?: string;
+          created_at?: string;
+          endpoint?: string;
+          expiration_time?: string | null;
+          id?: string;
+          p256dh_key?: string;
+          updated_at?: string;
+          user_agent?: string | null;
+          user_id?: string;
         };
       };
       order_groups: {
@@ -911,6 +996,8 @@ export type Database = {
       post_status: "draft" | "published" | "archived";
       comment_status: "visible" | "hidden" | "removed";
       reaction_type: "like" | "love" | "insightful" | "support" | "celebrate";
+      notification_event: "message_new" | "order_status_update";
+      notification_status: "pending" | "sent" | "failed";
       order_group_status: "pending" | "awaiting_payment" | "paid" | "cancelled" | "refunded";
       order_status:
         | "pending"

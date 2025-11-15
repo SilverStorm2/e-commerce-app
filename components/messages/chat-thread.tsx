@@ -569,6 +569,8 @@ export function ChatThread(props: ChatThreadProps) {
           next.sort(sortMessages);
           return next;
         });
+
+        notifyRecipients(normalized.id);
       }
 
       setComposerValue("");
@@ -592,6 +594,7 @@ export function ChatThread(props: ChatThreadProps) {
     props.currentUserId,
     props.dictionary.composer?.attachmentFallback,
     props.dictionary.composer?.sendError,
+    notifyRecipients,
     resetTypingState,
     selectedFile,
     supabase,
@@ -630,6 +633,24 @@ export function ChatThread(props: ChatThreadProps) {
     },
     [props.dictionary.message?.attachmentError, supabase],
   );
+
+  const notifyRecipients = useCallback((messageId: string) => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    void fetch("/api/notifications/dm", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ messageId }),
+    }).catch((error) => {
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Failed to enqueue DM notification", error);
+      }
+    });
+  }, []);
 
   const typingUserIds = useMemo(
     () => Object.keys(typingUsers).filter((userId) => typingUsers[userId] > Date.now()),

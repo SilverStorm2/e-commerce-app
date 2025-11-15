@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useLocale } from "./locale-provider";
 import { LocaleSwitcher } from "./locale-switcher";
 import { buttonVariants } from "@/components/ui/button";
+import { SubscribeButton } from "@/components/notifications/SubscribeButton";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
@@ -47,6 +48,7 @@ export function MainHeader() {
             {dictionary.navigation.signup}
           </Link>
           <LocaleSwitcher />
+          <SubscribeButton />
         </div>
       </nav>
     </header>

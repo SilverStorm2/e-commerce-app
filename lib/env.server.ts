@@ -2,6 +2,8 @@ const requiredServerEnv = [
   "STRIPE_SECRET_KEY",
   "STRIPE_WEBHOOK_SECRET",
   "SUPABASE_SERVICE_ROLE_KEY",
+  "VAPID_PUBLIC_KEY",
+  "VAPID_PRIVATE_KEY",
 ] as const;
 
 type ServerEnvKey = (typeof requiredServerEnv)[number];

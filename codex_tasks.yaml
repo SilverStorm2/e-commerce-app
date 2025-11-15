@@ -527,8 +527,7 @@ tasks:
     rollback_plan: "Fallback to polling; disable presence temporarily."
     est_complexity: M
 
-  - id: M4-NOTIFICATIONS
-    title: Notifications and optional web push subscriptions
+  - id: M4-NOTIFICATIONS // continuing
     description: >
       Create notifications and push_subscriptions; enqueue notifications on DM or order status changes.
       If push unsupported or denied, send email fallback.

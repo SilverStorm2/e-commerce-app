@@ -12,6 +12,62 @@ self.addEventListener("install", (event) => {
   );
 });
 
+self.addEventListener("push", (event) => {
+  if (!event.data) {
+    return;
+  }
+
+  let payload = null;
+  try {
+    payload = event.data.json();
+  } catch (_error) {
+    try {
+      payload = JSON.parse(event.data.text());
+    } catch (_error) {
+      payload = null;
+    }
+  }
+
+  if (!payload) {
+    return;
+  }
+
+  const title = payload.title || "Marketplace update";
+  const options = {
+    body: payload.body || "",
+    icon: payload.icon || "/icons/icon-192.png",
+    data: payload.data || {},
+    actions: payload.actions || [],
+  };
+
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+
+  const targetUrl = event.notification?.data?.actionUrl || "/";
+
+  event.waitUntil(
+    self.clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((clientList) => {
+        for (const client of clientList) {
+          if ("focus" in client) {
+            if (client.url.includes(targetUrl)) {
+              return client.focus();
+            }
+          }
+        }
+        if (self.clients.openWindow) {
+          return self.clients.openWindow(targetUrl);
+        }
+        return undefined;
+      })
+      .catch(() => undefined),
+  );
+});
+
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches

@@ -9,6 +9,8 @@ import {
   sanitizeTrackingNumber,
   type CarrierId,
 } from "@/lib/shipping/track";
+import { createNotificationAndDispatch } from "@/lib/notifications/service";
+import { sendNotificationEmailFallback } from "@/lib/notifications/email";
 
 export const runtime = "nodejs";
 
@@ -18,6 +20,16 @@ type ShipOrderPayload = {
   trackingUrl?: string | null;
   shippingMethod?: string | null;
 };
+
+function buildOrderUrl(orderId: string): string {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://marketplace.local";
+  try {
+    return new URL(`/orders/${orderId}`, baseUrl).toString();
+  } catch (_error) {
+    const normalizedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+    return `${normalizedBase}/orders/${orderId}`;
+  }
+}
 
 function isUuid(value: string): boolean {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
@@ -113,6 +125,14 @@ export async function POST(request: NextRequest, { params }: { params: { orderId
 
   const supabase = createSupabaseServerClientWithHeaders();
 
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+  }
+
   const { data: order, error: orderError } = await supabase
     .from("orders")
     .select("id, status, order_group_id")
@@ -140,12 +160,51 @@ export async function POST(request: NextRequest, { params }: { params: { orderId
     })
     .eq("id", orderId)
     .select(
-      "id, status, shipping_method, tracking_number, tracking_url, updated_at, order_group_id",
+      "id, status, shipping_method, tracking_number, tracking_url, updated_at, order_group_id, buyer_user_id, tenant_id",
     )
     .single();
 
   if (updateError || !updatedOrder) {
     return NextResponse.json({ error: "Failed to update order." }, { status: 500 });
+  }
+
+  if (updatedOrder.buyer_user_id) {
+    const notificationBody = trackingUrl
+      ? `Track your shipment: ${trackingUrl}`
+      : `Shipment is on the way via ${shippingMethod}.`;
+
+    const orderUrl = buildOrderUrl(orderId);
+
+    try {
+      const notificationResult = await createNotificationAndDispatch({
+        recipientUserId: updatedOrder.buyer_user_id,
+        actorUserId: user.id,
+        tenantId: updatedOrder.tenant_id,
+        eventType: "order_status_update",
+        title: "Your order has shipped",
+        body: notificationBody,
+        actionUrl: `/orders/${orderId}`,
+        metadata: {
+          orderId: updatedOrder.id,
+          orderGroupId: updatedOrder.order_group_id,
+          status: updatedOrder.status,
+          trackingNumber: updatedOrder.tracking_number,
+        },
+      });
+
+      if (notificationResult.status !== "sent" && updatedOrder.buyer_email) {
+        await sendNotificationEmailFallback({
+          to: updatedOrder.buyer_email,
+          subject: "Your order has shipped",
+          text: `${notificationBody}\n\nView your order: ${orderUrl}`,
+          html: `<p>${notificationBody}</p><p><a href="${orderUrl}">View your order</a></p>`,
+        });
+      }
+    } catch (notificationError) {
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Failed to dispatch order shipment notification", notificationError);
+      }
+    }
   }
 
   return NextResponse.json({
